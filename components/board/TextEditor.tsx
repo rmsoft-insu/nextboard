@@ -30,6 +30,14 @@ const formats = [
   "image",
 ];
 
+const registImage = async (formData: FormData) => {
+  const response = await fetch("/api/imageinsert", {
+    method: "POST",
+    body: formData,
+  });
+  return response;
+};
+
 const TextEditor = ({ content } = null) => {
   const quillRef = useRef();
   const setContents = useSetRecoilState(postContent);
@@ -37,8 +45,29 @@ const TextEditor = ({ content } = null) => {
   const handleContents = (contents: string) => {
     if (quillRef.current) {
       const quill = quillRef.current as any;
-      const delta = quill.unprivilegedEditor.getContents(content);
+      const delta = quill.unprivilegedEditor.getContents(contents);
       setContents(() => delta);
+    }
+  };
+
+  const imageHandler = () => {
+    if (quillRef.current) {
+      const quill = quillRef.current as any;
+      const input = document.createElement("input");
+
+      input.setAttribute("type", "file");
+      input.setAttribute("accept", "image/*");
+      input.click();
+      input.onchange = async () => {
+        const formData = new FormData();
+        const file = input.files;
+        formData.append("file", file[0]);
+        const response = await registImage(formData);
+        const { imageUrl } = await response.json();
+        const editorRange = quill.getEditorSelection();
+        quill.getEditor().insertEmbed(editorRange.index, "image", imageUrl);
+        quill.getEditor().setSelection(editorRange.index + 1);
+      };
     }
   };
 
@@ -57,6 +86,9 @@ const TextEditor = ({ content } = null) => {
           ["link", "image"],
           ["clean"],
         ],
+        handlers: {
+          image: imageHandler,
+        },
       },
     }),
     []
