@@ -103,23 +103,13 @@ const TextEditor = ({ content } = null) => {
   );
   return (
     <>
-      {content ? (
-        <ReactQuill
-          forwardedRef={quillRef}
-          formats={formats}
-          modules={modules}
-          placeholder="내용을 입력하세요..."
-          onChange={handleContents}
-        />
-      ) : (
-        <ReactQuill
-          forwardedRef={quillRef}
-          formats={formats}
-          modules={modules}
-          placeholder="내용을 입력하세요..."
-          onChange={handleContents}
-        />
-      )}
+      <ReactQuill
+        forwardedRef={quillRef}
+        formats={formats}
+        modules={modules}
+        placeholder="내용을 입력하세요..."
+        onChange={handleContents}
+      />
     </>
   );
 };
