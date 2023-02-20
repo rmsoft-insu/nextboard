@@ -23,16 +23,26 @@ const PostDetail = () => {
   const [content, setContent] = useState();
 
   useEffect(() => {
-    fetchPost(1).then((res) => setPage(() => res.result[0]));
+    if (router) {
+      const idx = parseInt(router.query.idx as string);
+      fetchPost(idx)
+        .then(async (res) => {
+          res.result && setPage(() => res.result[0]);
+        })
+        .catch((error) => {
+          alert(`Error: ${error}`);
+          router.replace("/");
+        });
+    }
   }, [router]);
 
   useEffect(() => {
     if (page.postContent !== "") {
       const json = JSON.parse(page.postContent);
       const quillGetHTML = (inputDelta) => {
-        const tempQuill = new Quill(document.createElement("div"));
-        tempQuill.setContents(inputDelta);
-        return tempQuill.root.innerHTML;
+        const quill = new Quill(document.createElement("div"));
+        quill.setContents(inputDelta);
+        return quill.root.innerHTML;
       };
       setContent(() => quillGetHTML(json));
     }
