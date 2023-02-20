@@ -1,3 +1,4 @@
+import TextEditor from "@/components/board/TextEditor";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -16,6 +17,7 @@ const RegisterPost = () => {
     <div>
       <Link href="/">목록보기</Link>
       <h1>등록하기</h1>
+      <TextEditor />
     </div>
   );
 };

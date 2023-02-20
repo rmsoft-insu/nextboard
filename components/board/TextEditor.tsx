@@ -1,4 +1,4 @@
-const Editor = () => {
+const TextEditor = ({ content } = null) => {
   return (
     <div>
       <h1>Quill Editor</h1>
@@ -6,4 +6,4 @@ const Editor = () => {
   );
 };
 
-export default Editor;
+export default TextEditor;
