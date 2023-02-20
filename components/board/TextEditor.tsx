@@ -41,7 +41,6 @@ const registImage = async (formData: FormData) => {
 const TextEditor = ({ content } = null) => {
   const quillRef = useRef();
   const setContents = useSetRecoilState(postContent);
-  const [defaultContent, setDefaultContent] = useState();
 
   const handleContents = (contents: string) => {
     if (quillRef.current) {
