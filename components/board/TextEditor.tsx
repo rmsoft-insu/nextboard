@@ -1,6 +1,8 @@
 import dynamic from "next/dynamic";
 import { useMemo, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
+import { useSetRecoilState } from "recoil";
+import { postContent } from "./atom";
 
 const ReactQuill = dynamic(
   async () => {
@@ -30,6 +32,15 @@ const formats = [
 
 const TextEditor = ({ content } = null) => {
   const quillRef = useRef();
+  const setContents = useSetRecoilState(postContent);
+
+  const handleContents = (contents: string) => {
+    if (quillRef.current) {
+      const quill = quillRef.current as any;
+      const delta = quill.unprivilegedEditor.getContents(content);
+      setContents(() => delta);
+    }
+  };
 
   const modules = useMemo(
     () => ({
@@ -52,13 +63,12 @@ const TextEditor = ({ content } = null) => {
   );
   return (
     <div>
-      <h1>Quill Editor</h1>
       <ReactQuill
         forwardedRef={quillRef}
         formats={formats}
         modules={modules}
         placeholder="내용을 입력하세요..."
-        value={content}
+        onChange={handleContents}
       />
     </div>
   );
