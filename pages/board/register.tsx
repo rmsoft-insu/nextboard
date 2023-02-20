@@ -13,8 +13,8 @@ const registerPost = async (data) => {
   return response;
 };
 
-const handleRegister = (data) => {
-  console.log(data);
+const handleRegister = async (data) => {
+  await registerPost(data).then((res) => console.log(res));
 };
 
 const RegisterPost = () => {
