@@ -10,11 +10,9 @@ export default async function handler(
     postTitle: requestData.postTitle as string,
     postContent: JSON.stringify(requestData.postContents),
   };
-  try {
-    console.log(registerData);
+  console.log(registerData.postContent);
+  if (typeof registerData.postContent === "string") {
     await client.board.create({ data: registerData });
     res.status(200).send({ message: "Success" });
-  } catch (error) {
-    res.status(200).send({ error: error });
   }
 }

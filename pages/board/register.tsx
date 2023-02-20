@@ -1,6 +1,7 @@
 import { postContent } from "@/components/board/atom";
 import TextEditor from "@/components/board/TextEditor";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
@@ -10,16 +11,22 @@ const registerPost = async (data) => {
     method: "POST",
     body: JSON.stringify(data),
   });
-  return response;
-};
-
-const handleRegister = async (data) => {
-  await registerPost(data).then((res) => console.log(res));
+  const json = await response.json();
+  return json;
 };
 
 const RegisterPost = () => {
   const { register, handleSubmit, setValue } = useForm();
   const postContents = useRecoilValue(postContent);
+  const router = useRouter();
+
+  const handleRegister = async (data) => {
+    await registerPost(data)
+      .then((res) => {
+        res.message && router.replace("/");
+      })
+      .catch((error) => alert(`Error: ${error}`));
+  };
 
   useEffect(() => {
     setValue("postContents", postContents);
