@@ -1,12 +1,19 @@
+import client from "@/util/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type Data = {
-  name: string;
-};
-
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  res.status(200).json({ name: "John Doe" });
+  const textIdx = parseInt(req.query.idx as string);
+  try {
+    const data = await client.board.findMany({
+      where: {
+        postIdx: textIdx,
+      },
+    });
+    res.status(200).send({ result: data });
+  } catch (error) {
+    res.status(200).send({ error: error });
+  }
 }

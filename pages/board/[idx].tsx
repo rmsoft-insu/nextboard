@@ -24,7 +24,6 @@ const PostDetail = () => {
 
   useEffect(() => {
     fetchPost(1).then((res) => setPage(() => res.result[0]));
-    console.log(router.query);
   }, [router]);
 
   useEffect(() => {
