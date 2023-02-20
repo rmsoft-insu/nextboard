@@ -50,6 +50,7 @@ const PostDetail = () => {
 
   return (
     <div>
+      <Link href="/board">목록보기</Link>
       <h1>글 상세</h1>
       <div>{page.postTitle}</div>
       {content && <div dangerouslySetInnerHTML={{ __html: content }} />}

@@ -35,9 +35,6 @@ const BoardList = () => {
       ) : (
         <div>Loading...</div>
       )}
-      <div>
-        <Link href="/board/1">1번글</Link>
-      </div>
     </div>
   );
 };

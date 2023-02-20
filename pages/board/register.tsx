@@ -34,7 +34,7 @@ const RegisterPost = () => {
 
   return (
     <div>
-      <Link href="/">목록보기</Link>
+      <Link href="/board">목록보기</Link>
       <h1>등록페이지</h1>
       <form onSubmit={handleSubmit(handleRegister)}>
         <input

@@ -1,5 +1,6 @@
 import { postContent } from "@/components/board/atom";
 import TextEditor from "@/components/board/TextEditor";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -85,6 +86,7 @@ const EditPost = () => {
 
   return (
     <div>
+      <Link href="/board">목록보기</Link>
       <h1>글 수정</h1>
       <form onSubmit={handleSubmit(handleEdit)}>
         <input {...register("postTitle")} type="text" />
