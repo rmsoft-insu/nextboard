@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useSetRecoilState } from "recoil";
 import { postContent } from "./atom";
@@ -41,6 +41,7 @@ const registImage = async (formData: FormData) => {
 const TextEditor = ({ content } = null) => {
   const quillRef = useRef();
   const setContents = useSetRecoilState(postContent);
+  const [defaultContent, setDefaultContent] = useState();
 
   const handleContents = (contents: string) => {
     if (quillRef.current) {
@@ -71,6 +72,13 @@ const TextEditor = ({ content } = null) => {
     }
   };
 
+  useEffect(() => {
+    if (content && quillRef.current) {
+      const quill = quillRef.current as any;
+      quill.editor.clipboard.dangerouslyPasteHTML(content);
+    }
+  }, [content]);
+
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -94,15 +102,25 @@ const TextEditor = ({ content } = null) => {
     []
   );
   return (
-    <div>
-      <ReactQuill
-        forwardedRef={quillRef}
-        formats={formats}
-        modules={modules}
-        placeholder="내용을 입력하세요..."
-        onChange={handleContents}
-      />
-    </div>
+    <>
+      {content ? (
+        <ReactQuill
+          forwardedRef={quillRef}
+          formats={formats}
+          modules={modules}
+          placeholder="내용을 입력하세요..."
+          onChange={handleContents}
+        />
+      ) : (
+        <ReactQuill
+          forwardedRef={quillRef}
+          formats={formats}
+          modules={modules}
+          placeholder="내용을 입력하세요..."
+          onChange={handleContents}
+        />
+      )}
+    </>
   );
 };
 
