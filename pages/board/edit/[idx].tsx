@@ -20,7 +20,7 @@ const fetchPost = async (idx) => {
 const editPost = async (data, idx) => {
   const response = await fetch(`/api/edit/${idx}`, {
     method: "POST",
-    body: data,
+    body: JSON.stringify(data),
   });
   const json = await response.json();
   return json;
@@ -73,7 +73,7 @@ const EditPost = () => {
   const handleEdit = async (data) => {
     const { idx } = router.query;
     const editedData = {
-      postIdx: idx,
+      postIdx: parseInt(idx as string),
       ...data,
     };
     await editPost(editedData, idx)
