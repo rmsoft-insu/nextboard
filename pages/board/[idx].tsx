@@ -53,7 +53,7 @@ const PostDetail = () => {
       <h1>글 상세</h1>
       <div>{page.postTitle}</div>
       {content && <div dangerouslySetInnerHTML={{ __html: content }} />}
-      <Link href="/board/edit/1">수정하기</Link>
+      <Link href={`/board/edit/${router.query.idx}`}>수정하기</Link>
       <div>삭제하기</div>
     </div>
   );
