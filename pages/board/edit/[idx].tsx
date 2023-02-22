@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 const Quill = typeof window === "object" ? require("quill") : () => false;
 
 interface Text {
@@ -27,14 +27,22 @@ const editPost = async (data, idx) => {
   return json;
 };
 
+const setImage = async (formData: FormData) => {
+  const response = await fetch("/api/imageinsert", {
+    method: "POST",
+    body: formData,
+  });
+  return response;
+};
+
 const EditPost = () => {
   const router = useRouter();
-  const [content, setContent] = useState();
+  const [oldContent, setOldContent] = useState();
+  const [newContent, setNewContent] = useRecoilState(postContent);
   const [page, setPage] = useState<Text>({
     postTitle: "",
     postContent: "",
   });
-  const editContent = useRecoilValue(postContent);
 
   const { register, setValue, handleSubmit } = useForm();
 
@@ -58,18 +66,18 @@ const EditPost = () => {
         quill.setContents(inputDelta);
         return quill.root.innerHTML;
       };
-      setContent(quillGetHTML(json));
+      setOldContent(() => quillGetHTML(json));
       setValue("postTitle", page.postTitle);
     }
-  }, [page, setValue]);
+  }, [page, setValue, setOldContent]);
 
   useEffect(() => {
-    if (editContent) {
-      setValue("postContent", editContent);
+    if (newContent) {
+      setValue("postContent", newContent);
     } else {
-      setValue("postContent", content);
+      setValue("postContent", oldContent);
     }
-  }, [editContent, setValue, content]);
+  }, [newContent, setValue, oldContent]);
 
   const handleEdit = async (data) => {
     const { idx } = router.query;
@@ -90,7 +98,11 @@ const EditPost = () => {
       <h1>글 수정</h1>
       <form onSubmit={handleSubmit(handleEdit)}>
         <input {...register("postTitle")} type="text" />
-        <TextEditor content={content} />
+        <TextEditor
+          setContent={setNewContent}
+          content={oldContent}
+          setImage={setImage}
+        />
         <button>수정하기</button>
       </form>
     </div>

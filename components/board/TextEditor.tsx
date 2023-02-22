@@ -1,8 +1,6 @@
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
-import { useSetRecoilState } from "recoil";
-import { postContent } from "./atom";
 
 const ReactQuill = dynamic(
   async () => {
@@ -30,27 +28,21 @@ const formats = [
   "image",
 ];
 
-const registImage = async (formData: FormData) => {
-  const response = await fetch("/api/imageinsert", {
-    method: "POST",
-    body: formData,
-  });
-  return response;
-};
-
-const TextEditor = ({ content } = null) => {
+const TextEditor = (props: any) => {
   const quillRef = useRef();
-  const setContents = useSetRecoilState(postContent);
+  const setImage = props.setImage;
+  const setContent = props.setContent;
+  const content = props.content;
 
   const handleContents = (contents: string) => {
     if (quillRef.current) {
       const quill = quillRef.current as any;
       const delta = quill.unprivilegedEditor.getContents(contents);
-      setContents(() => delta);
+      setContent(() => delta);
     }
   };
 
-  const imageHandler = () => {
+  const imageHandler = useCallback(() => {
     if (quillRef.current) {
       const quill = quillRef.current as any;
       const input = document.createElement("input");
@@ -62,14 +54,14 @@ const TextEditor = ({ content } = null) => {
         const formData = new FormData();
         const file = input.files;
         formData.append("file", file[0]);
-        const response = await registImage(formData);
+        const response = await setImage(formData);
         const { imageUrl } = await response.json();
         const editorRange = quill.getEditorSelection();
         quill.getEditor().insertEmbed(editorRange.index, "image", imageUrl);
         quill.getEditor().setSelection(editorRange.index + 1);
       };
     }
-  };
+  }, [setImage]);
 
   useEffect(() => {
     if (content && quillRef.current) {
@@ -98,7 +90,7 @@ const TextEditor = ({ content } = null) => {
         },
       },
     }),
-    []
+    [imageHandler]
   );
   return (
     <>

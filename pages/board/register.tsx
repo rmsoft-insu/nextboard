@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const registerPost = async (data) => {
   const response = await fetch("/api/register", {
@@ -15,8 +15,17 @@ const registerPost = async (data) => {
   return json;
 };
 
+const setImage = async (formData: FormData) => {
+  const response = await fetch("/api/imageinsert", {
+    method: "POST",
+    body: formData,
+  });
+  return response;
+};
+
 const RegisterPost = () => {
   const { register, handleSubmit, setValue } = useForm();
+  const setDelta = useSetRecoilState(postContent);
   const postContents = useRecoilValue(postContent);
   const router = useRouter();
 
@@ -42,7 +51,7 @@ const RegisterPost = () => {
           type="text"
           placeholder="제목을 입력하세요"
         />
-        <TextEditor />
+        <TextEditor setContent={setDelta} setImage={setImage} />
         <button>등록하기</button>
       </form>
     </div>
