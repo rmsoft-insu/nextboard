@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const registerPost = async (data) => {
   const response = await fetch("/api/register", {
@@ -24,7 +24,12 @@ const setImage = async (formData: FormData) => {
 };
 
 const RegisterPost = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const setDelta = useSetRecoilState(postContent);
   const postContents = useRecoilValue(postContent);
   const router = useRouter();
@@ -38,6 +43,10 @@ const RegisterPost = () => {
   };
 
   useEffect(() => {
+    register("postContents", { required: "내용을 입력하세요" });
+  }, [register]);
+
+  useEffect(() => {
     setValue("postContents", postContents);
   }, [setValue, postContents]);
 
@@ -47,11 +56,12 @@ const RegisterPost = () => {
       <h1>등록페이지</h1>
       <form onSubmit={handleSubmit(handleRegister)}>
         <input
-          {...register("postTitle")}
+          {...register("postTitle", { required: true })}
           type="text"
           placeholder="제목을 입력하세요"
         />
         <TextEditor setContent={setDelta} setImage={setImage} />
+        <span>{errors.postContents && "내용을 입력하세요."}</span>
         <button>등록하기</button>
       </form>
     </div>

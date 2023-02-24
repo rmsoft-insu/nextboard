@@ -37,8 +37,12 @@ const TextEditor = (props: any) => {
   const handleContents = (contents: string) => {
     if (quillRef.current) {
       const quill = quillRef.current as any;
-      const delta = quill.unprivilegedEditor.getContents(contents);
-      setContent(() => delta);
+      const delta = quill.unprivilegedEditor.getContents();
+      if (contents === "<p><br></p>") {
+        setContent(() => null);
+      } else {
+        setContent(() => delta);
+      }
     }
   };
 
