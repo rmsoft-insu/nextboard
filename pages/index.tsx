@@ -5,6 +5,7 @@ export default function Home() {
     <>
       <h1>Home</h1>
       <Link href="/board">게시판</Link>
+      <Link href="/upload">업로드</Link>
     </>
   );
 }
