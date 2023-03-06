@@ -21,7 +21,7 @@ const bookKind = [
 
 const Register = () => {
   const selectRef = useRef();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [category, setCategory] = useState(null);
   const [kindList, setKindList] = useState([]);
 
@@ -30,13 +30,20 @@ const Register = () => {
   };
 
   const categoryChange = (event) => {
-    console.log(event.target.value);
-    setCategory(() => event.target.value);
+    const { value } = event.target;
+    setValue("category", value);
+    setCategory(() => value);
   };
 
   const kindChange = (event) => {
-    console.log(event.target.value);
+    const { value } = event.target;
+    setValue("kind", value);
   };
+
+  useEffect(() => {
+    register("category", { required: true });
+    register("kind", { required: true });
+  }, [register]);
 
   useEffect(() => {
     if (selectRef) {
@@ -69,8 +76,17 @@ const Register = () => {
             </option>
           ))}
         </select>
-        <input type="text" />
-        <button>버튼</button>
+        <input
+          {...register("title", { required: true })}
+          type="text"
+          placeholder="제목"
+        />
+        <input
+          {...register("description", { required: true })}
+          type="text"
+          placeholder="설명"
+        />
+        <button>등록</button>
       </form>
     </div>
   );
