@@ -7,16 +7,16 @@ const categoryList = [
 ];
 
 const movieKind = [
-  { idx: 1, kind: "액션" },
-  { idx: 2, kind: "로맨스" },
-  { idx: 3, kind: "드라마" },
-  { idx: 4, kind: "공포" },
+  { idx: 1, kind: "액션", code: "action" },
+  { idx: 2, kind: "로맨스", code: "romance" },
+  { idx: 3, kind: "드라마", code: "drama" },
+  { idx: 4, kind: "공포", code: "horror" },
 ];
 
 const bookKind = [
-  { idx: 1, kind: "소설" },
-  { idx: 2, kind: "과학" },
-  { idx: 3, kind: "기술/공학" },
+  { idx: 1, kind: "소설", code: "novel" },
+  { idx: 2, kind: "과학", code: "science" },
+  { idx: 3, kind: "기술/공학", code: "tech" },
 ];
 
 const Register = () => {
@@ -34,12 +34,15 @@ const Register = () => {
     setCategory(() => event.target.value);
   };
 
+  const kindChange = (event) => {
+    console.log(event.target.value);
+  };
+
   useEffect(() => {
     if (selectRef) {
       const { current } = selectRef as any;
       current.value = "";
     }
-
     category === "" && setKindList(() => []);
     category === "movie" && setKindList(() => movieKind);
     category === "book" && setKindList(() => bookKind);
@@ -58,10 +61,12 @@ const Register = () => {
             </option>
           ))}
         </select>
-        <select ref={selectRef}>
+        <select ref={selectRef} onChange={kindChange}>
           <option value="">분류</option>
           {kindList.map((item) => (
-            <option key={item.idx}>{item.kind}</option>
+            <option key={item.idx} value={item.code}>
+              {item.kind}
+            </option>
           ))}
         </select>
         <input type="text" />
