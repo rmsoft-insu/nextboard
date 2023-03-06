@@ -19,6 +19,15 @@ const bookKind = [
   { idx: 3, kind: "기술/공학", code: "tech" },
 ];
 
+const fetchPost = async (data) => {
+  const response = await fetch("/api/category/register", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+  const json = await response.json();
+  return json;
+};
+
 const Register = () => {
   const selectRef = useRef();
   const {
@@ -31,8 +40,8 @@ const Register = () => {
   const [category, setCategory] = useState(null);
   const [kindList, setKindList] = useState([]);
 
-  const submitClick = (data) => {
-    console.log(data);
+  const submitClick = async (data) => {
+    await fetchPost(data).then((res) => console.log(res));
   };
 
   const categoryChange = (event) => {
@@ -65,7 +74,7 @@ const Register = () => {
 
   return (
     <div>
-      <h1>카테고리 등록</h1>
+      <h1>게시글 등록</h1>
 
       <form onSubmit={handleSubmit(submitClick)}>
         <div>
