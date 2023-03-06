@@ -6,6 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    console.log(req.query);
     const data = await client.category.findMany();
     res.status(200).send({ data: data });
   } catch (error) {

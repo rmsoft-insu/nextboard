@@ -19,20 +19,18 @@ const bookKind = [
   { idx: 3, kind: "기술/공학", code: "tech" },
 ];
 
-const fetchList = async () => {
-  const response = await fetch("/api/category");
+const fetchList = async (categoryCode = "") => {
+  const response = await fetch(`/api/category?category=${categoryCode}`);
   const json = response.json();
   return json;
 };
 
-const SortBox = () => {
-  const [category, setCategory] = useState("");
-
+const SortBox = ({ setCategory }) => {
   return (
     <div>
       <h1>SortBox</h1>
       {categoryList.map((item) => (
-        <div key={item.idx} onClick={() => console.log(item)}>
+        <div key={item.idx} onClick={() => setCategory(item.code)}>
           <div>{item.category}</div>
         </div>
       ))}
@@ -42,18 +40,19 @@ const SortBox = () => {
 
 const Category = () => {
   const [list, setList] = useState([]);
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
-    fetchList().then((res) => {
+    fetchList(category).then((res) => {
       console.log(res.data);
       setList(() => res.data);
     });
-  }, []);
+  }, [category]);
 
   return (
     <div>
       <h1> 카테고리 게시판</h1>
-      <SortBox />
+      <SortBox setCategory={setCategory} />
       <div>
         <div>
           <Link href="/category/register">카테고리 등록</Link>
