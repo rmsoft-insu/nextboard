@@ -21,7 +21,13 @@ const bookKind = [
 
 const Register = () => {
   const selectRef = useRef();
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    clearErrors,
+  } = useForm();
   const [category, setCategory] = useState(null);
   const [kindList, setKindList] = useState([]);
 
@@ -30,12 +36,14 @@ const Register = () => {
   };
 
   const categoryChange = (event) => {
+    clearErrors("category");
     const { value } = event.target;
     setValue("category", value);
     setCategory(() => value);
   };
 
   const kindChange = (event) => {
+    clearErrors("kind");
     const { value } = event.target;
     setValue("kind", value);
   };
@@ -60,32 +68,52 @@ const Register = () => {
       <h1>카테고리 등록</h1>
 
       <form onSubmit={handleSubmit(submitClick)}>
-        <select onChange={categoryChange}>
-          <option value="">카테고리</option>
-          {categoryList.map((item) => (
-            <option key={item.idx} value={item.code}>
-              {item.category}
-            </option>
-          ))}
-        </select>
-        <select ref={selectRef} onChange={kindChange}>
-          <option value="">분류</option>
-          {kindList.map((item) => (
-            <option key={item.idx} value={item.code}>
-              {item.kind}
-            </option>
-          ))}
-        </select>
+        <div>
+          <div>카테고리</div>
+          <select onChange={categoryChange}>
+            <option value="">카테고리</option>
+            {categoryList.map((item) => (
+              <option key={item.idx} value={item.code}>
+                {item.category}
+              </option>
+            ))}
+          </select>
+          <div style={{ color: "red" }}>
+            {errors.category && "카테고리를 선택해주세요"}
+          </div>
+        </div>
+
+        <div>
+          <div>분류</div>
+          <select ref={selectRef} onChange={kindChange}>
+            <option value="">분류</option>
+            {kindList.map((item) => (
+              <option key={item.idx} value={item.code}>
+                {item.kind}
+              </option>
+            ))}
+          </select>
+          <div style={{ color: "red" }}>
+            {errors.kind && "분류를 선택해주세요"}
+          </div>
+        </div>
+
         <input
-          {...register("title", { required: true })}
+          {...register("title", { required: true, minLength: 3 })}
           type="text"
           placeholder="제목"
         />
+        <div style={{ color: "red" }}>
+          {errors.title && "제목을 입력해주세요"}
+        </div>
         <input
-          {...register("description", { required: true })}
+          {...register("description", { required: true, minLength: 10 })}
           type="text"
           placeholder="설명"
         />
+        <div style={{ color: "red" }}>
+          {errors.description && "설명을 입력해주세요(10자 이상)"}
+        </div>
         <button>등록</button>
       </form>
     </div>
