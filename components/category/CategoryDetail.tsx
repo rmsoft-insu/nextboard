@@ -1,17 +1,17 @@
+const movieKind = [
+  { idx: 1, kind: "액션", code: "action" },
+  { idx: 2, kind: "로맨스", code: "romance" },
+  { idx: 3, kind: "드라마", code: "drama" },
+  { idx: 4, kind: "공포", code: "horror" },
+];
+
+const bookKind = [
+  { idx: 1, kind: "소설", code: "novel" },
+  { idx: 2, kind: "과학", code: "science" },
+  { idx: 3, kind: "기술/공학", code: "tech" },
+];
+
 const CategoryDetail = ({ category, setKind }) => {
-  const movieKind = [
-    { idx: 1, kind: "액션", code: "action" },
-    { idx: 2, kind: "로맨스", code: "romance" },
-    { idx: 3, kind: "드라마", code: "drama" },
-    { idx: 4, kind: "공포", code: "horror" },
-  ];
-
-  const bookKind = [
-    { idx: 1, kind: "소설", code: "novel" },
-    { idx: 2, kind: "과학", code: "science" },
-    { idx: 3, kind: "기술/공학", code: "tech" },
-  ];
-
   return (
     <div>
       <h1>SortDetailBox</h1>
