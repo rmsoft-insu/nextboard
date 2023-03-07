@@ -1,6 +1,6 @@
 const categoryList = [
-  { idx: 1, category: "영화", code: "movie" },
-  { idx: 2, category: "도서", code: "book" },
+  { idx: 1, category: "영화", code: "movie", count: 30 },
+  { idx: 2, category: "도서", code: "book", count: 20 },
 ];
 
 import styled from "styled-components";

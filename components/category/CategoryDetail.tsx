@@ -8,16 +8,16 @@ const SelectBox = styled.div`
 `;
 
 const movieKind = [
-  { idx: 1, kind: "액션", code: "action" },
-  { idx: 2, kind: "로맨스", code: "romance" },
-  { idx: 3, kind: "드라마", code: "drama" },
-  { idx: 4, kind: "공포", code: "horror" },
+  { idx: 1, kind: "액션", code: "action", count: 3 },
+  { idx: 2, kind: "로맨스", code: "romance", count: 5 },
+  { idx: 3, kind: "드라마", code: "drama", count: 6 },
+  { idx: 4, kind: "공포", code: "horror", count: 7 },
 ];
 
 const bookKind = [
-  { idx: 1, kind: "소설", code: "novel" },
-  { idx: 2, kind: "과학", code: "science" },
-  { idx: 3, kind: "기술/공학", code: "tech" },
+  { idx: 1, kind: "소설", code: "novel", count: 2 },
+  { idx: 2, kind: "과학", code: "science", count: 4 },
+  { idx: 3, kind: "기술/공학", code: "tech", count: 5 },
 ];
 
 const CategoryDetail = ({ category, setKind }) => {

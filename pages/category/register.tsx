@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const categoryList = [
-  { idx: 1, category: "영화", code: "movie" },
-  { idx: 2, category: "도서", code: "book" },
-];
-
 const movieKind = [
   { idx: 1, kind: "액션", code: "action" },
   { idx: 2, kind: "로맨스", code: "romance" },
@@ -28,6 +23,18 @@ const fetchPost = async (data) => {
   return json;
 };
 
+const fetchCategory = async () => {
+  const response = await fetch("/api/category/menu");
+  const json = await response.json();
+  return json;
+};
+
+const fetchKind = async () => {
+  const response = await fetch("/api/category/kind");
+  const json = await response.json();
+  return json;
+};
+
 const Register = () => {
   const selectRef = useRef();
   const {
@@ -37,8 +44,12 @@ const Register = () => {
     formState: { errors },
     clearErrors,
   } = useForm();
+
   const [category, setCategory] = useState(null);
   const [kindList, setKindList] = useState([]);
+  const [kind, setKind] = useState(null);
+  const [categoryList, setCategoryList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const submitClick = async (data) => {
     await fetchPost(data).then((res) => console.log(res));
@@ -63,14 +74,20 @@ const Register = () => {
   }, [register]);
 
   useEffect(() => {
+    fetchCategory().then((res) => setCategoryList(() => res.menu));
+    fetchKind().then((res) => setKind(() => res));
+    setLoading(() => false);
+  }, []);
+
+  useEffect(() => {
     if (selectRef) {
       const { current } = selectRef as any;
       current.value = "";
     }
     category === "" && setKindList(() => []);
-    category === "movie" && setKindList(() => movieKind);
-    category === "book" && setKindList(() => bookKind);
-  }, [category]);
+    category === "movie" && setKindList(() => kind.movie);
+    category === "book" && setKindList(() => kind.book);
+  }, [category, kind]);
 
   return (
     <div>
@@ -81,11 +98,12 @@ const Register = () => {
           <div>카테고리</div>
           <select onChange={categoryChange}>
             <option value="">카테고리</option>
-            {categoryList.map((item) => (
-              <option key={item.idx} value={item.code}>
-                {item.category}
-              </option>
-            ))}
+            {loading ||
+              categoryList.map((item) => (
+                <option key={item.idx} value={item.code}>
+                  {item.name}
+                </option>
+              ))}
           </select>
           <div style={{ color: "red" }}>
             {errors.category && "카테고리를 선택해주세요"}
@@ -98,7 +116,7 @@ const Register = () => {
             <option value="">분류</option>
             {kindList.map((item) => (
               <option key={item.idx} value={item.code}>
-                {item.kind}
+                {item.name}
               </option>
             ))}
           </select>

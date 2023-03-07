@@ -17,6 +17,34 @@ model Board {
   regDate     DateTime @default(now())
 }
 
+
+model Menu {
+  idx Int @id @default(autoincrement())
+  name String 
+  code String @unique
+  kinds Kind[]
+  posts Post[]
+}
+
+model Kind {
+  idx Int @id @default(autoincrement())
+  name String 
+  code String @unique
+  menu Menu @relation(fields: [menuIdx], references: [idx])
+  menuIdx Int
+  posts Post[]
+}
+
+model Post {
+  @@id([kindIdx, menuIdx])
+  title String
+  description String
+  kind Kind @relation(fields: [kindIdx], references: [idx])
+  kindIdx Int
+  menu Menu @relation(fields: [menuIdx], references: [idx])
+  menuIdx Int
+}
+
 model Category {
   idx Int @id @default(autoincrement())
   category String

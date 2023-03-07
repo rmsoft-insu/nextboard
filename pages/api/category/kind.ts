@@ -6,8 +6,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const menu = await client.menu.findMany();
-    res.status(200).send({ menu: menu });
+    const movie = await client.kind.findMany({
+      where: {
+        menuIdx: 1,
+      },
+    });
+    const book = await client.kind.findMany({
+      where: {
+        menuIdx: 2,
+      },
+    });
+    res.status(200).send({ movie: movie, book: book });
   } catch (error) {
     res.status(400).send({ error: error });
   }
