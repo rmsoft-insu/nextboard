@@ -3,17 +3,27 @@ const categoryList = [
   { idx: 2, category: "도서", code: "book" },
 ];
 
+import styled from "styled-components";
+
+const SelectBox = styled.div`
+  background-color: burlywood;
+  padding: 10px;
+  margin-right: 10px;
+`;
+
 const CategoryBox = ({ setCategory }) => {
   return (
-    <div>
-      <h1>SortBox</h1>
-      <div onClick={() => setCategory(() => "")}>전체</div>
-      {categoryList.map((item) => (
-        <div key={item.idx} onClick={() => setCategory(item.code)}>
-          <div>{item.category}</div>
-        </div>
-      ))}
-    </div>
+    <>
+      <h1>Category</h1>
+      <div style={{ display: "flex" }}>
+        <SelectBox onClick={() => setCategory(() => "")}>전체</SelectBox>
+        {categoryList.map((item) => (
+          <SelectBox key={item.idx} onClick={() => setCategory(item.code)}>
+            <div>{item.category}</div>
+          </SelectBox>
+        ))}
+      </div>
+    </>
   );
 };
 

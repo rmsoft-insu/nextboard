@@ -1,3 +1,12 @@
+import styled from "styled-components";
+
+const SelectBox = styled.div`
+  background-color: burlywood;
+  padding: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+`;
+
 const movieKind = [
   { idx: 1, kind: "액션", code: "action" },
   { idx: 2, kind: "로맨스", code: "romance" },
@@ -14,23 +23,22 @@ const bookKind = [
 const CategoryDetail = ({ category, setKind }) => {
   return (
     <div>
-      <h1>SortDetailBox</h1>
       {category === "book" && (
-        <div>
+        <div style={{ display: "flex" }}>
           {bookKind.map((item) => (
-            <div key={item.idx} onClick={() => setKind(() => item.code)}>
+            <SelectBox key={item.idx} onClick={() => setKind(() => item.code)}>
               {item.kind}
-            </div>
+            </SelectBox>
           ))}
         </div>
       )}
 
       {category === "movie" && (
-        <div>
+        <div style={{ display: "flex" }}>
           {movieKind.map((item) => (
-            <div key={item.idx} onClick={() => setKind(() => item.code)}>
+            <SelectBox key={item.idx} onClick={() => setKind(() => item.code)}>
               <div>{item.kind}</div>
-            </div>
+            </SelectBox>
           ))}
         </div>
       )}
