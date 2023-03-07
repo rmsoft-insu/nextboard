@@ -6,9 +6,11 @@ const categoryList = [
   { idx: 2, category: "도서", code: "book" },
 ];
 
-const fetchList = async (categoryCode = "") => {
-  const response = await fetch(`/api/category?category=${categoryCode}`);
-  const json = response.json();
+const fetchList = async (categoryCode = "", kind = "") => {
+  const response = await fetch(
+    `/api/category?category=${categoryCode}&kind=${kind}`
+  );
+  const json = await response.json();
   return json;
 };
 
@@ -26,7 +28,7 @@ const SortBox = ({ setCategory }) => {
   );
 };
 
-const SortDetailBox = ({ category }) => {
+const SortDetailBox = ({ category, setKind }) => {
   const movieKind = [
     { idx: 1, kind: "액션", code: "action" },
     { idx: 2, kind: "로맨스", code: "romance" },
@@ -46,7 +48,9 @@ const SortDetailBox = ({ category }) => {
       {category === "book" && (
         <div>
           {bookKind.map((item) => (
-            <div key={item.idx}>{item.kind}</div>
+            <div key={item.idx} onClick={() => setKind(() => item.code)}>
+              {item.kind}
+            </div>
           ))}
         </div>
       )}
@@ -54,7 +58,7 @@ const SortDetailBox = ({ category }) => {
       {category === "movie" && (
         <div>
           {movieKind.map((item) => (
-            <div key={item.idx}>
+            <div key={item.idx} onClick={() => setKind(() => item.code)}>
               <div>{item.kind}</div>
             </div>
           ))}
@@ -70,17 +74,22 @@ const Category = () => {
   const [kind, setKind] = useState("");
 
   useEffect(() => {
-    fetchList(category).then((res) => {
-      console.log(res.data);
+    fetchList(category, kind).then((res) => {
       setList(() => res.data);
     });
+  }, [category, kind]);
+
+  useEffect(() => {
+    setKind(() => "");
   }, [category]);
 
   return (
     <div>
       <h1> 카테고리 게시판</h1>
       <SortBox setCategory={setCategory} />
-      {category !== "" && <SortDetailBox category={category} />}
+      {category !== "" && (
+        <SortDetailBox category={category} setKind={setKind} />
+      )}
       <div>
         <div>
           <Link href="/category/register">카테고리 등록</Link>
