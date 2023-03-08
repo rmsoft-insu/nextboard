@@ -32,19 +32,18 @@ const Register = () => {
     clearErrors,
   } = useForm();
 
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("");
   const [kindList, setKindList] = useState([]);
   const [kind, setKind] = useState(null);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const submitClick = async (data) => {
-    console.log(data);
     await fetchPost(data).then((res) => console.log(res));
   };
 
   const categoryChange = (event) => {
-    clearErrors("category");
+    clearErrors("menu");
     const { id } = event.target.selectedOptions[0];
     const { value } = event.target;
     setValue("menu", id);
@@ -94,8 +93,9 @@ const Register = () => {
                 </option>
               ))}
           </select>
+
           <div style={{ color: "red" }}>
-            {errors.category && "카테고리를 선택해주세요"}
+            {errors.menu && "카테고리를 선택해주세요"}
           </div>
         </div>
 
@@ -109,6 +109,7 @@ const Register = () => {
               </option>
             ))}
           </select>
+
           <div style={{ color: "red" }}>
             {errors.kind && "분류를 선택해주세요"}
           </div>
