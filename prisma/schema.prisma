@@ -36,7 +36,7 @@ model Kind {
 }
 
 model Post {
-  @@id([kindIdx, menuIdx])
+ idx Int @id @default(autoincrement())
   title String
   description String
   kind Kind @relation(fields: [kindIdx], references: [idx])

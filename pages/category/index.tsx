@@ -11,20 +11,10 @@ const fetchList = async (categoryCode = "", kind = "") => {
   return json;
 };
 
-const fetchMenu = async () => {
-  const response = await fetch(`/api/category/menu`);
-  const json = await response.json();
-  return json;
-};
-
 const Category = () => {
   const [list, setList] = useState([]);
   const [category, setCategory] = useState("");
   const [kind, setKind] = useState("");
-
-  useEffect(() => {
-    fetchMenu().then((res) => console.log(res));
-  }, []);
 
   useEffect(() => {
     fetchList(category, kind).then((res) => {
