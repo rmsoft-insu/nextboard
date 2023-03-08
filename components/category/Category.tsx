@@ -1,9 +1,11 @@
-const categoryList = [
-  { idx: 1, category: "영화", code: "movie", count: 30 },
-  { idx: 2, category: "도서", code: "book", count: 20 },
-];
-
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+
+const fetchMenu = async () => {
+  const response = await fetch(`/api/category/menu`);
+  const json = await response.json();
+  return json;
+};
 
 const SelectBox = styled.div`
   background-color: burlywood;
@@ -12,6 +14,12 @@ const SelectBox = styled.div`
 `;
 
 const CategoryBox = ({ setCategory }) => {
+  const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(() => {
+    fetchMenu().then((res) => setCategoryList(() => res.menu));
+  }, []);
+
   return (
     <>
       <h1>Category</h1>
@@ -19,7 +27,7 @@ const CategoryBox = ({ setCategory }) => {
         <SelectBox onClick={() => setCategory(() => "")}>전체</SelectBox>
         {categoryList.map((item) => (
           <SelectBox key={item.idx} onClick={() => setCategory(item.code)}>
-            <div>{item.category}</div>
+            <div>{item.name}</div>
           </SelectBox>
         ))}
       </div>

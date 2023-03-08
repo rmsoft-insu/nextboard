@@ -9,7 +9,7 @@ export default async function handler(
     const { category } = req.query;
     const { kind } = req.query;
 
-    if (category !== "") {
+    /*     if (category !== "") {
       if (kind !== "") {
         const data = await client.category.findMany({
           where: {
@@ -26,9 +26,9 @@ export default async function handler(
         });
         return res.status(200).send({ data: data });
       }
-    }
+    } */
 
-    const data = await client.category.findMany();
+    const data = await client.post.findMany();
     res.status(200).send({ data: data });
   } catch (error) {
     res.status(400).send({ error: "Error" });
