@@ -39,24 +39,26 @@ const Register = () => {
   const [loading, setLoading] = useState(true);
 
   const submitClick = async (data) => {
+    console.log(data);
     await fetchPost(data).then((res) => console.log(res));
   };
 
   const categoryChange = (event) => {
     clearErrors("category");
+    const { id } = event.target.selectedOptions[0];
     const { value } = event.target;
-    setValue("category", value);
+    setValue("menu", id);
     setCategory(() => value);
   };
 
   const kindChange = (event) => {
     clearErrors("kind");
-    const { value } = event.target;
-    setValue("kind", value);
+    const { id } = event.target.selectedOptions[0];
+    setValue("kind", id);
   };
 
   useEffect(() => {
-    register("category", { required: true });
+    register("menu", { required: true });
     register("kind", { required: true });
   }, [register]);
 
@@ -87,7 +89,7 @@ const Register = () => {
             <option value="">카테고리</option>
             {loading ||
               categoryList.map((item) => (
-                <option key={item.idx} value={item.code}>
+                <option key={item.idx} value={item.code} id={item.idx}>
                   {item.name}
                 </option>
               ))}
@@ -102,7 +104,7 @@ const Register = () => {
           <select ref={selectRef} onChange={kindChange}>
             <option value="">분류</option>
             {kindList.map((item) => (
-              <option key={item.idx} value={item.code}>
+              <option key={item.idx} value={item.code} id={item.idx}>
                 {item.name}
               </option>
             ))}
