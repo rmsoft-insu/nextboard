@@ -28,7 +28,7 @@ const UploadForm = () => {
       field: [{ text: "", file: null }],
     },
   });
-  const { fields, append } = useFieldArray({ control, name: "field" });
+  const { fields, append, remove } = useFieldArray({ control, name: "field" });
 
   const formSubmit = async (data) => {
     console.log(data);
@@ -55,6 +55,9 @@ const UploadForm = () => {
               {...register(`field.${index}.file`, { required: true })}
               type="file"
             />
+            {index > 0 && (
+              <button onClick={() => remove(index)}>제거하기</button>
+            )}
           </div>
         ))}
         {errors.field && (
