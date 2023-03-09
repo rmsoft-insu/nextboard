@@ -8,7 +8,6 @@ export default async function handler(
   try {
     const { category } = req.query;
     const { kind } = req.query;
-    console.log(kind, category);
 
     if (category) {
       if (kind) {

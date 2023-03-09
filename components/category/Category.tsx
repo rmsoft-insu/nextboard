@@ -14,22 +14,32 @@ const SelectBox = styled.div`
 `;
 
 const CategoryBox = ({ setCategory }) => {
-  const [categoryList, setCategoryList] = useState([]);
+  const [categories, setCategories] = useState<any>(null);
 
   useEffect(() => {
-    fetchMenu().then((res) => setCategoryList(() => res.menu));
+    fetchMenu().then((res) => {
+      console.log(res);
+      setCategories(() => res);
+    });
   }, []);
 
   return (
     <>
       <h1>Category</h1>
       <div style={{ display: "flex" }}>
-        <SelectBox onClick={() => setCategory(() => null)}>전체</SelectBox>
-        {categoryList.map((item) => (
-          <SelectBox key={item.idx} onClick={() => setCategory(item)}>
-            <div>{item.name}</div>
+        {categories && (
+          <SelectBox onClick={() => setCategory(() => null)}>
+            <div>전체</div>
+            <div>{categories.totalCount}</div>
           </SelectBox>
-        ))}
+        )}
+        {categories &&
+          categories.menu.map((item) => (
+            <SelectBox key={item.idx} onClick={() => setCategory(item)}>
+              <div>{item.name}</div>
+              <div>{item._count.posts}</div>
+            </SelectBox>
+          ))}
       </div>
     </>
   );
