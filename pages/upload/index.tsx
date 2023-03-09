@@ -1,4 +1,14 @@
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+
+type FormValues = {
+  title: string;
+  field: {
+    text: string;
+    file: File;
+    file2: File;
+  }[];
+};
 
 const fetchPost = async (data) => {
   const response = await fetch("/api/test", {
@@ -9,23 +19,37 @@ const fetchPost = async (data) => {
 };
 
 const UploadForm = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm<FormValues>({
+    defaultValues: {
+      field: [{ text: "", file: null }],
+    },
+  });
+  const { fields } = useFieldArray({ control, name: "field" });
 
   const formSubmit = async (data) => {
-    const formData = new FormData();
-    console.log(data.file);
-    formData.append("file", data.file[0]);
-    formData.append("file", data.file2[0]);
-    await fetchPost(formData);
+    console.log(data);
   };
+
+  useEffect(() => {
+    console.log(fields);
+  }, [fields]);
 
   return (
     <div>
       <h1>Upload Form</h1>
       <form onSubmit={handleSubmit(formSubmit)}>
-        <input {...register("text")} type="text" placeholder="텍스트" />
-        <input {...register("file")} type="file" />
-        <input {...register("file2")} type="file" />
+        <input {...register("title")} type="text" placeholder="타이틀" />
+        {fields.map((field, index) => (
+          <div key={field.id}>
+            <input
+              {...register(`field.${index}.text`)}
+              type="text"
+              placeholder="텍스트"
+            />
+            <input {...register(`field.${index}.file`)} type="file" />
+          </div>
+        ))}
+
         <button>등록</button>
       </form>
     </div>
