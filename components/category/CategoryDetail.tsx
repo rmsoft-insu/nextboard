@@ -6,6 +6,7 @@ const SelectBox = styled.div`
   padding: 10px;
   margin-right: 10px;
   margin-top: 10px;
+  text-align: center;
 `;
 
 const fetchKind = async () => {
@@ -30,7 +31,8 @@ const CategoryDetail = ({ category, setKind }) => {
           {kindObject &&
             kindObject.book.map((item) => (
               <SelectBox key={item.idx} onClick={() => setKind(() => item)}>
-                {item.name}
+                <div>{item.name}</div>
+                <div>{item._count.posts}</div>
               </SelectBox>
             ))}
         </div>
@@ -42,6 +44,7 @@ const CategoryDetail = ({ category, setKind }) => {
             kindObject.movie.map((item) => (
               <SelectBox key={item.idx} onClick={() => setKind(() => item)}>
                 <div>{item.name}</div>
+                <div>{item._count.posts}</div>
               </SelectBox>
             ))}
         </div>
