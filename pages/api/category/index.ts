@@ -8,25 +8,29 @@ export default async function handler(
   try {
     const { category } = req.query;
     const { kind } = req.query;
+    console.log(kind, category);
 
-    /*     if (category !== "") {
-      if (kind !== "") {
-        const data = await client.category.findMany({
+    if (category) {
+      if (kind) {
+        const data = await client.post.findMany({
           where: {
-            category: category as string,
-            kind: kind as string,
+            kindIdx: parseInt(kind as string),
+            menuIdx: parseInt(category as string),
           },
         });
         return res.status(200).send({ data: data });
       } else {
-        const data = await client.category.findMany({
+        const data = await client.post.findMany({
           where: {
-            category: category as string,
+            menuIdx: parseInt(category as string),
           },
         });
         return res.status(200).send({ data: data });
       }
-    } */
+    }
+
+    if (kind) {
+    }
 
     const data = await client.post.findMany();
     res.status(200).send({ data: data });

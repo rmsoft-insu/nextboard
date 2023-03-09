@@ -24,9 +24,9 @@ const CategoryBox = ({ setCategory }) => {
     <>
       <h1>Category</h1>
       <div style={{ display: "flex" }}>
-        <SelectBox onClick={() => setCategory(() => "")}>전체</SelectBox>
+        <SelectBox onClick={() => setCategory(() => null)}>전체</SelectBox>
         {categoryList.map((item) => (
-          <SelectBox key={item.idx} onClick={() => setCategory(item.code)}>
+          <SelectBox key={item.idx} onClick={() => setCategory(item)}>
             <div>{item.name}</div>
           </SelectBox>
         ))}
