@@ -7,6 +7,10 @@ const SelectBox = styled.div`
   margin-top: 10px;
 `;
 
+const fetchKind = async() => {
+  await fetch(`/api/category/kind`)
+};
+
 const movieKind = [
   { idx: 1, kind: "액션", code: "action", count: 3 },
   { idx: 2, kind: "로맨스", code: "romance", count: 5 },

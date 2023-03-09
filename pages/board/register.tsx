@@ -5,6 +5,11 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
+
+const EditorWrapper = styled.div`
+  min-height: 250px;
+`;
 
 const registerPost = async (data) => {
   const response = await fetch("/api/register", {
@@ -60,7 +65,9 @@ const RegisterPost = () => {
           type="text"
           placeholder="제목을 입력하세요"
         />
-        <TextEditor setContent={setDelta} setImage={setImage} />
+        <EditorWrapper>
+          <TextEditor setContent={setDelta} setImage={setImage} height={200} />
+        </EditorWrapper>
         <span>{errors.postContents && "내용을 입력하세요."}</span>
         <button>등록하기</button>
       </form>

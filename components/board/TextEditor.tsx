@@ -33,6 +33,7 @@ const TextEditor = (props: any) => {
   const setImage = props.setImage;
   const setContent = props.setContent;
   const content = props.content;
+  const height = props.height;
 
   const handleContents = (contents: string) => {
     if (quillRef.current) {
@@ -104,9 +105,17 @@ const TextEditor = (props: any) => {
         modules={modules}
         placeholder="내용을 입력하세요..."
         onChange={handleContents}
+        style={{ height: `${height}px` }}
       />
     </>
   );
 };
 
 export default TextEditor;
+
+const Quill = typeof window === "object" ? require("quill") : () => false;
+export const deltaToHTML = (inputDelta) => {
+  const quill = new Quill(document.createElement("div"));
+  quill.setContents(inputDelta);
+  return quill.root.innerHTML;
+};

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-const Quill = typeof window === "object" ? require("quill") : () => false;
+import { deltaToHTML } from "@/components/board/TextEditor";
 
 interface Text {
   postTitle: string;
@@ -39,12 +39,7 @@ const PostDetail = () => {
   useEffect(() => {
     if (page.postContent !== "") {
       const json = JSON.parse(page.postContent);
-      const quillGetHTML = (inputDelta) => {
-        const quill = new Quill(document.createElement("div"));
-        quill.setContents(inputDelta);
-        return quill.root.innerHTML;
-      };
-      setContent(() => quillGetHTML(json));
+      setContent(() => deltaToHTML(json));
     }
   }, [page]);
 
