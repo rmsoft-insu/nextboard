@@ -48,6 +48,7 @@ const Register = () => {
     const { value } = event.target;
     setValue("menu", id);
     setCategory(() => value);
+    setValue("kind", null);
   };
 
   const kindChange = (event) => {

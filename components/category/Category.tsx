@@ -17,10 +17,7 @@ const CategoryBox = ({ setCategory }) => {
   const [categories, setCategories] = useState<any>(null);
 
   useEffect(() => {
-    fetchMenu().then((res) => {
-      console.log(res);
-      setCategories(() => res);
-    });
+    fetchMenu().then((res) => setCategories(() => res));
   }, []);
 
   return (

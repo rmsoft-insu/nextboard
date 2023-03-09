@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import CategoryBox from "@/components/category/Category";
 import CategoryDetail from "@/components/category/CategoryDetail";
+import { useRouter } from "next/router";
 
 const fetchList = async (categoryIdx = "", kindIdx = "") => {
   const response = await fetch(
@@ -12,6 +13,7 @@ const fetchList = async (categoryIdx = "", kindIdx = "") => {
 };
 
 const Category = () => {
+  const router = useRouter();
   const [list, setList] = useState([]);
   const [category, setCategory] = useState(null);
   const [kind, setKind] = useState(null);
@@ -39,7 +41,10 @@ const Category = () => {
         </div>
         <div>Category</div>
         {list.map((item) => (
-          <div key={item.idx}>
+          <div
+            key={item.idx}
+            onClick={() => router.push(`/category/${item.idx}`)}
+          >
             <div>{item.title}</div>
           </div>
         ))}
