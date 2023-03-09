@@ -18,9 +18,14 @@ const fetchPost = async (data) => {
 };
 
 const UploadForm = () => {
-  const { register, handleSubmit, control } = useForm<FormValues>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>({
     defaultValues: {
-      field: [{ text: null, file: null }],
+      field: [{ text: "", file: null }],
     },
   });
   const { fields, append } = useFieldArray({ control, name: "field" });
@@ -41,14 +46,20 @@ const UploadForm = () => {
         {fields.map((field, index) => (
           <div key={field.id}>
             <input
-              {...register(`field.${index}.text`)}
+              {...register(`field.${index}.text`, { required: true })}
               type="text"
               placeholder="텍스트"
             />
-            <input {...register(`field.${index}.file`)} type="file" />
+
+            <input
+              {...register(`field.${index}.file`, { required: true })}
+              type="file"
+            />
           </div>
         ))}
-
+        {errors.field && (
+          <div style={{ color: "red" }}>입력칸을 입력해주세요</div>
+        )}
         <div onClick={() => append({ text: null, file: null })}>추가하기</div>
         <button>등록</button>
       </form>
