@@ -5,8 +5,7 @@ type FormValues = {
   title: string;
   field: {
     text: string;
-    file: File;
-    file2: File;
+    file?: File;
   }[];
 };
 
@@ -21,10 +20,10 @@ const fetchPost = async (data) => {
 const UploadForm = () => {
   const { register, handleSubmit, control } = useForm<FormValues>({
     defaultValues: {
-      field: [{ text: "", file: null }],
+      field: [{ text: null, file: null }],
     },
   });
-  const { fields } = useFieldArray({ control, name: "field" });
+  const { fields, append } = useFieldArray({ control, name: "field" });
 
   const formSubmit = async (data) => {
     console.log(data);
@@ -50,6 +49,7 @@ const UploadForm = () => {
           </div>
         ))}
 
+        <div onClick={() => append({ text: null, file: null })}>추가하기</div>
         <button>등록</button>
       </form>
     </div>
