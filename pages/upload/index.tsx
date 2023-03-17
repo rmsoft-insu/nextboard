@@ -1,13 +1,17 @@
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import styled from "styled-components";
 
 type FormValues = {
   title: string;
+  thumbnail: File;
   field: {
     text: string;
     file?: File;
   }[];
 };
+
+const FormWrap = styled.form``;
 
 const fetchPost = async (data) => {
   const response = await fetch("/api/test", {
@@ -31,7 +35,16 @@ const UploadForm = () => {
   const { fields, append, remove } = useFieldArray({ control, name: "field" });
 
   const formSubmit = async (data) => {
-    console.log(data);
+    const formData = new FormData();
+    data.field.forEach(function (image) {
+      console.log(image.file[0]);
+      formData.append("images", image.file[0]);
+    });
+    let entries = formData.entries();
+    for (const pair of entries) {
+      console.log(pair);
+    }
+    await fetchPost(formData);
   };
 
   useEffect(() => {
@@ -41,8 +54,9 @@ const UploadForm = () => {
   return (
     <div>
       <h1>Upload Form</h1>
-      <form onSubmit={handleSubmit(formSubmit)}>
+      <FormWrap onSubmit={handleSubmit(formSubmit)}>
         <input {...register("title")} type="text" placeholder="타이틀" />
+        <input {...register("thumbnail")} type="file" />
         {fields.map((field, index) => (
           <div key={field.id}>
             <input
@@ -64,8 +78,9 @@ const UploadForm = () => {
           <div style={{ color: "red" }}>입력칸을 입력해주세요</div>
         )}
         <div onClick={() => append({ text: null, file: null })}>추가하기</div>
+
         <button>등록</button>
-      </form>
+      </FormWrap>
     </div>
   );
 };

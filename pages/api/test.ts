@@ -15,10 +15,10 @@ const app = nextConnect({
 });
 
 const upload = multer({
-  limits: { fileSize: 1024 * 1024 }, // 1MB
+  limits: { fileSize: 1024 * 1024 * 1024 }, // 1MB
 });
 
-app.post(upload.array("file"), function (req, res) {
+app.post(upload.array("images"), function (req, res) {
   try {
     const { files } = req as any;
     console.log(files);
