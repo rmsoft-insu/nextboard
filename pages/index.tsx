@@ -14,6 +14,12 @@ export default function Home() {
         <li>
           <Link href="/category">카테고리</Link>
         </li>
+        <li>
+          <Link href="/project/register">프로젝트</Link>
+        </li>
+        <li>
+          <Link href="/font">폰트</Link>
+        </li>
       </ul>
     </>
   );
