@@ -52,7 +52,3 @@ model Category {
   title String
   description String
 }
-
-model Project {
-  
-}
