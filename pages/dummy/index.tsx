@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 const DummyTest = () => {
   const [list, setList] = useState([]);
   const fetchList = async () => {
-    const { data } = await axios.get("http://localhost:4000/todos");
+    const { data } = await axios.get(
+      "http://localhost:4000/todos?_page=1&_limit=5"
+    );
     setList(data);
     console.log(data);
   };
@@ -32,9 +34,12 @@ const DummyTest = () => {
     <div>
       <h1>JSON Server Test</h1>
       <Link href="/dummy/register">등록하기</Link>
-      {list?.map((item) => (
+      {list?.map((item, index) => (
         <div key={item.id}>
-          <div key={item.id}>{item.description}</div>
+          <div key={item.id}>
+            {`No. ${index + 1} `}
+            {item.description}
+          </div>
           <button onClick={() => toggleCompleteBtn(item.id, item.isCompleted)}>
             {item.isCompleted ? "완료" : "미완료"}
           </button>
