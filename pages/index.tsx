@@ -20,6 +20,9 @@ export default function Home() {
         <li>
           <Link href="/font">폰트</Link>
         </li>
+        <li>
+          <Link href="/dummy">JSON-SERVER</Link>
+        </li>
       </ul>
     </>
   );
