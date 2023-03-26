@@ -1,27 +1,46 @@
 import axios from "axios";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const DummyTest = () => {
-  const [text, setText] = useState("");
-
-  const handleSubmit = async () => {
-    const { data } = await axios.post("http://localhost:4000/todos", {
-      text,
-      isCompleted: false,
-    });
-    alert(data.text + "이 추가되었습니다.");
-    setText("");
+  const [list, setList] = useState([]);
+  const fetchList = async () => {
+    const { data } = await axios.get("http://localhost:4000/todos");
+    setList(data);
+    console.log(data);
   };
+
+  const toggleCompleteBtn = async (id, isCompleted) => {
+    await axios.patch(`http://localhost:4000/todos/${id}`, {
+      isCompleted: !isCompleted,
+    });
+    await fetchList();
+  };
+
+  const deleteBtn = async (id) => {
+    await axios.delete(`http://localhost:4000/todos/${id}`);
+    await fetchList();
+  };
+
+  useEffect(() => {
+    (async () => {
+      await fetchList();
+    })();
+  }, []);
+
   return (
     <div>
       <h1>JSON Server Test</h1>
-      <input
-        placeholder="할 일"
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <button onClick={handleSubmit}>추가하기</button>
+      <Link href="/dummy/register">등록하기</Link>
+      {list?.map((item) => (
+        <div key={item.id}>
+          <div key={item.id}>{item.description}</div>
+          <button onClick={() => toggleCompleteBtn(item.id, item.isCompleted)}>
+            {item.isCompleted ? "완료" : "미완료"}
+          </button>
+          <button onClick={() => deleteBtn(item.id)}>삭제하기</button>
+        </div>
+      ))}
     </div>
   );
 };

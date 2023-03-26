@@ -11,7 +11,7 @@
       "isCompleted": true
     },
     {
-      "text": "json 테스트하기",
+      "description": "json test",
       "isCompleted": false,
       "id": 3
     }
