@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import styled from "styled-components";
 
 const Box = styled.div`
@@ -31,20 +31,23 @@ const InfiniteScroll = () => {
       refetchOnWindowFocus: false,
     }
   );
-
-  useEffect(() => {
-    const handleScroll = async (event) => {
+  const handleScroll = useCallback(
+    async (event) => {
       const { scrollHeight, scrollTop, clientHeight } =
         event.target.scrollingElement;
       if (scrollHeight - scrollTop - clientHeight === 0) {
         hasNextPage && (await fetchNextPage());
       }
-    };
+    },
+    [hasNextPage, fetchNextPage]
+  );
+
+  useEffect(() => {
     document.addEventListener("scroll", handleScroll);
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
-  }, [fetchNextPage, hasNextPage]);
+  }, [handleScroll]);
 
   return (
     <>
