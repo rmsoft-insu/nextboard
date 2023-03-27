@@ -1,9 +1,14 @@
 import Link from "next/link";
+import styled from "styled-components";
+
+const Title = styled.div`
+  color: ${(props) => props.theme.colors.blue};
+`;
 
 export default function Home() {
   return (
     <>
-      <h1>Home</h1>
+      <Title>Home</Title>
       <ul>
         <li>
           <Link href="/board">게시판</Link>

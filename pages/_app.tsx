@@ -2,6 +2,8 @@ import type { AppProps } from "next/app";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
+import { ThemeProvider } from "styled-components";
+import Theme from "@/style/theme";
 
 const queryClient = new QueryClient();
 
@@ -10,7 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <RecoilRoot>
-        <Component {...pageProps} />
+        <ThemeProvider theme={Theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>
   );
