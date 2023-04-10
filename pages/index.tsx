@@ -28,6 +28,9 @@ export default function Home() {
         <li>
           <Link href="/dummy">JSON-SERVER</Link>
         </li>
+        <li>
+          <Link href="/motion">모션</Link>
+        </li>
       </ul>
     </>
   );
