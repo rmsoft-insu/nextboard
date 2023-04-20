@@ -5,6 +5,9 @@ import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import Theme from "@/style/theme";
 import "../style/tabcard.css";
+import "../style/listing.css";
+import "../style/modal.css";
+import "../style/overlay.css";
 
 const queryClient = new QueryClient();
 

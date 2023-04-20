@@ -7,7 +7,7 @@ const Listing = (props) => {
     data;
 
   return (
-    <motion.div>
+    <motion.div onClick={open} whileHover={{ scale: 1.1 }}>
       <div>
         <div>
           <Image src={imageUrl} alt="real mansion" width={400} height={300} />
