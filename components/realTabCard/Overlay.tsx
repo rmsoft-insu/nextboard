@@ -22,8 +22,23 @@ const Wrapper = styled(motion.div)`
   }
 `;
 
+const variants = {
+  open: { backgroundColor: "rgba(0,0,0,0.6)" },
+  closed: { backgroundColor: "rgba(0,0,0,0)" },
+};
+
 const Overlay = ({ children, close }) => {
-  return <Wrapper onClick={close}>{children}</Wrapper>;
+  return (
+    <Wrapper
+      onClick={close}
+      initial={"closed"}
+      animate={"open"}
+      exit={"closed"}
+      variants={variants}
+    >
+      {children}
+    </Wrapper>
+  );
 };
 
 export default Overlay;

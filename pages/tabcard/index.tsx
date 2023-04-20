@@ -1,11 +1,23 @@
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/realTabCard/Button";
 import Overlay from "@/components/realTabCard/Overlay";
 import Modal from "@/components/realTabCard/Modal";
+import styled from "styled-components";
+
+const ModalWrapper = styled(Modal)`
+  width: 500px;
+  height: 500px;
+  background-color: blue;
+`;
 
 const TabCard = () => {
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
   const openModal = () => {
     console.log("open");
     setOpen(true);
@@ -20,7 +32,9 @@ const TabCard = () => {
       <AnimatePresence>
         {open && (
           <Overlay close={closeModal}>
-            <Modal close={closeModal} />
+            <ModalWrapper close={closeModal} setValue={setValue}>
+              <div>나무처럼</div>
+            </ModalWrapper>
           </Overlay>
         )}
       </AnimatePresence>
