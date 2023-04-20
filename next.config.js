@@ -10,6 +10,9 @@ const nextConfig = {
     ACCESS_KEY: process.env.AWS_ACCESSKEY,
     SECRET_KEY: process.env.AWS_SECRET_ACCESSKEY,
   },
+  images: {
+    domains: ["images.unsplash.com", "ca-times.brightspotcdn.com"],
+  },
 };
 
 module.exports = nextConfig;

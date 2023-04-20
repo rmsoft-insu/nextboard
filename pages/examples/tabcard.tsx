@@ -1,7 +1,14 @@
+import { properties } from "../../constants/data";
+import Card from "@/components/tabcard/Card";
+
 const TabCard = () => {
   return (
-    <div>
-      <h1>Tab Card </h1>
+    <div className="App">
+      <div className="properties">
+        {properties.map((item) => (
+          <Card key={item.id} data={item} />
+        ))}
+      </div>
     </div>
   );
 };

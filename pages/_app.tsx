@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import Theme from "@/style/theme";
+import "../style/tabcard.css";
 
 const queryClient = new QueryClient();
 
