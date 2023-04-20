@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 const Modal = (props) => {
-  const { data, closeModal } = props;
+  const { data, close } = props;
   const {
     imageUrl,
     price,
@@ -48,7 +48,15 @@ const Modal = (props) => {
         src={imageUrl}
         variants={imageVariants}
       />
-      <motion.div variants={modalInfoVariants}></motion.div>
+      <motion.div variants={modalInfoVariants}>
+        <motion.button
+          className="modal__close-wrapper"
+          whileHover={{ scale: 1.2 }}
+          onClick={close}
+        >
+          <IoCloseCircleOutline className="modal__close-icon" />
+        </motion.button>
+      </motion.div>
     </motion.div>
   );
 };
