@@ -15,11 +15,10 @@ const Modal = (props) => {
   return (
     <AnimatePresence>
       {open && (
-        <Overlay open={setOpen}>
+        <Overlay open={setOpen} {...others}>
           <motion.div
             variants={modalVariants}
             onClick={(e) => e.stopPropagation()}
-            {...others}
           >
             {children}
           </motion.div>

@@ -28,7 +28,7 @@ const variants = {
 };
 
 const Overlay = (props) => {
-  const { children, open } = props;
+  const { children, open, ...others } = props;
 
   const handleClose = () => {
     open(false);
@@ -42,7 +42,7 @@ const Overlay = (props) => {
       exit={"closed"}
       variants={variants}
     >
-      {children}
+      <div {...others}>{children}</div>
     </Wrapper>
   );
 };
