@@ -32,9 +32,7 @@ const TabCard = () => {
       <AnimatePresence>
         {open && (
           <Overlay close={closeModal}>
-            <ModalWrapper close={closeModal} setValue={setValue}>
-              <div>나무처럼</div>
-            </ModalWrapper>
+            <ModalWrapper close={closeModal}>나무처럼</ModalWrapper>
           </Overlay>
         )}
       </AnimatePresence>
