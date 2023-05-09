@@ -5,17 +5,21 @@ import { useEffect, useState } from "react";
 const DummyTest = () => {
   const [list, setList] = useState([]);
   const fetchList = async () => {
-    const { data } = await axios.get(
-      "http://localhost:4000/todos?_page=1&_limit=5"
+    const response = await fetch(
+      `http://localhost:4000/todos?_page=1&_limit=5`
     );
-    setList(data);
-    console.log(data);
+    const json = await response.json();
+    setList(() => json);
   };
 
   const toggleCompleteBtn = async (id, isCompleted) => {
-    await axios.patch(`http://localhost:4000/todos/${id}`, {
-      isCompleted: !isCompleted,
+    const response = await fetch(`http://localhost:4000/todos/${id}`, {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({ isCompleted: !isCompleted }),
     });
+    const json = await response.json();
+    console.log(json);
     await fetchList();
   };
 
