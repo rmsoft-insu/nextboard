@@ -1,5 +1,5 @@
 import { Variants, motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const itemVariants: Variants = {
@@ -19,15 +19,6 @@ const itemVariants: Variants = {
   },
 };
 
-const iconVariants: Variants = {
-  open: {
-    rotate: 180,
-  },
-  closed: {
-    rotate: 0,
-  },
-};
-
 const listData = [
   { id: 1, name: "one" },
   { id: 2, name: "two" },
@@ -42,11 +33,6 @@ const MotionDiv = styled(motion.div)`
   background-color: skyblue;
   width: 500px;
 `;
-const MotionIcon = styled(motion.span)`
-  background-color: skyblue;
-  width: 30px;
-  height: 30px;
-`;
 
 const Card = ({ setId, item, id }) => {
   const isOpen = id === item.id;
@@ -56,15 +42,7 @@ const Card = ({ setId, item, id }) => {
 
   return (
     <div key={item.id}>
-      <div onClick={handleClick}>
-        제목 클릭{" "}
-        <MotionIcon
-          animate={isOpen ? "open" : "closed"}
-          variants={iconVariants}
-        >
-          ㅎ
-        </MotionIcon>
-      </div>
+      <div onClick={handleClick}>제목 클릭 </div>
       <AnimatePresence>
         <MotionDiv
           initial={false}
