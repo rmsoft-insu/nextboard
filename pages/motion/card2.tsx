@@ -40,7 +40,7 @@ const Item = styled.div`
   width: 500px;
 `;
 
-const MotionDiv = styled(motion.div)`
+const Wrapper = styled(motion.div)`
   background-color: skyblue;
   width: 500px;
 `;
@@ -93,13 +93,14 @@ const Card = ({ setId, item, id }) => {
 
       {/* 생성되어 펼쳐질 상세 정보 파트 */}
       <AnimatePresence>
-        <MotionDiv
+        {/* exit 에 해당하는 애니메이션은 컴포넌트가 사라질 때 수행되는 애니메이션 입니다. */}
+        <Wrapper
           animate={isOpen ? "open" : "closed"}
           exit="collapsed"
           variants={itemVariants}
         >
           <Item>아이템</Item>
-        </MotionDiv>
+        </Wrapper>
       </AnimatePresence>
     </motion.div>
   );
