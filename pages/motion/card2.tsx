@@ -16,7 +16,7 @@ const itemVariants: Variants = {
     transformOrigin: "top", //펼쳐지는 애니메이션 시작위치 입니다.
     scaleY: 1,
     opacity: 1,
-    height: "80px",
+    height: "auto",
     transition: { duration: 0.2 },
   },
   closed: {
@@ -37,13 +37,9 @@ const iconVariants: Variants = {
 
 const Item = styled.div`
   background-color: red;
-  width: 500px;
 `;
 
-const Wrapper = styled(motion.div)`
-  background-color: skyblue;
-  width: 500px;
-`;
+const Wrapper = styled(motion.div)``;
 
 const Icon = styled(BsChevronDown)`
   font-size: 20px;
@@ -99,7 +95,13 @@ const Card = ({ setId, item, id }) => {
           exit="collapsed"
           variants={itemVariants}
         >
-          <Item>아이템</Item>
+          <Item>
+            아이템<div>felkfnwef</div>
+            아이템<div>felkfnwef</div>
+            아이템<div>felkfnwef</div>
+            아이템<div>felkfnwef</div>
+            아이템<div>felkfnwef</div>
+          </Item>
         </Wrapper>
       </AnimatePresence>
     </motion.div>
