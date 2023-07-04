@@ -41,9 +41,7 @@ const UploadForm = () => {
       formData.append("images", image.file[0]);
     });
     let entries = formData.entries();
-    for (const pair of entries) {
-      console.log(pair);
-    }
+
     await fetchPost(formData);
   };
 
