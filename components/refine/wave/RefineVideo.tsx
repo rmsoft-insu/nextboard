@@ -3,6 +3,7 @@ import WaveSurfer from "wavesurfer.js";
 import * as WaveSurferTimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline";
 import * as WaveSurferRegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions";
 import randomColor from "randomcolor";
+import ReactPlayer from "react-player";
 
 const wavesurferOptions = {
   container: "#waveform",
@@ -14,9 +15,10 @@ const wavesurferOptions = {
   barWidth: 3,
   barRadius: 3,
   height: 150,
-  responsive: true,
-  normalize: true,
   partialRender: true,
+  media: "#videoplayer",
+  /*    responsive: true,
+  normalize: true, */
   plugins: [
     WaveSurferRegionsPlugin.create({ maxLength: 60 }),
     WaveSurferTimelinePlugin.create({ container: "#waveform-timeline" }),
@@ -30,6 +32,8 @@ const RefineVideo = () => {
   const [loading, setLoading] = useState(false);
   const [regions, setRegions] = useState([]);
 
+  const [video, setVideo] = useState("");
+
   //React Player
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -42,7 +46,7 @@ const RefineVideo = () => {
       alpha: 0.3,
       format: "rgba",
     })}`;
-    setRegions((oldResions) => [...oldResions, event]);
+    setRegions((oldRegions) => [...oldRegions, event]);
   };
 
   const createWave = (event: any) => {
@@ -55,16 +59,21 @@ const RefineVideo = () => {
       const reader = new FileReader();
       reader.onload = async (event) => {
         const { result } = event.target;
-        videoRef.current = result;
         const blob = new window.Blob([
           new Uint8Array(result as ArrayBufferLike),
         ]);
-
-        waveRef.current.loadBlob(blob);
+        const url = URL.createObjectURL(blob);
+        waveRef.current.load(url);
+        //aveRef.current.loadBlob(blob);
+        setVideo(url);
       };
 
       reader.readAsArrayBuffer(file);
     }
+  };
+
+  const updateWave = (event: any) => {
+    console.log(event);
   };
 
   const onPlayPause = () => {
@@ -87,14 +96,32 @@ const RefineVideo = () => {
 
   useEffect(() => {
     waveRef.current = WaveSurfer.create(wavesurferOptions as any);
-    waveRef.current.on("ready", () => setLoading(true));
+    waveRef.current.on("ready", () => {
+      waveRef.current.addRegion({
+        start: 4,
+        end: 8,
+        color: randomColor(),
+      });
+      setLoading(true);
+    });
     waveRef.current.on("region-created", (event: any) => createOption(event));
+    waveRef.current.on("region-update-end", (event: any) => updateWave(event));
+
     waveRef.current.enableDragSelection({});
   }, []);
 
   return (
     <div>
       <input type="file" onChange={createWave} />
+      <ReactPlayer
+        width={"100%"}
+        url={video}
+        ref={videoRef}
+        muted={true}
+        progressInterval={300}
+        id={"videoplayer"}
+      />
+
       <div
         id="waveform"
         style={{ visibility: `${loading ? "visible" : "hidden"}` }}
@@ -112,6 +139,7 @@ const RefineVideo = () => {
           >
             {region.element.title}
           </span>
+          <input type="text" />
           <span onClick={() => onDeleteRegion(region.id)}>X</span>
         </div>
       ))}
