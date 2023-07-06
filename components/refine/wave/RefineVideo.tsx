@@ -1,9 +1,11 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import WaveSurfer from "wavesurfer.js";
 import * as WaveSurferTimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline";
 import * as WaveSurferRegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions";
 import randomColor from "randomcolor";
 import ReactPlayer from "react-player";
+
+const URL = `http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4`;
 
 const wavesurferOptions = {
   container: "#waveform",
@@ -49,31 +51,10 @@ const RefineVideo = () => {
     setRegions((oldRegions) => [...oldRegions, event]);
   };
 
-  const createWave = (event: any) => {
-    if (regions.length > 0) {
-      waveRef.current.regions.clearRegions();
-    }
-    setLoading(false);
-    const file = event.currentTarget.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const { result } = event.target;
-        const blob = new window.Blob([
-          new Uint8Array(result as ArrayBufferLike),
-        ]);
-        const url = URL.createObjectURL(blob);
-        waveRef.current.load(url);
-        //aveRef.current.loadBlob(blob);
-        setVideo(url);
-      };
-
-      reader.readAsArrayBuffer(file);
-    }
-  };
-
   const updateWave = (event: any) => {
-    console.log(event);
+    waveRef.current.on("destroy", event);
+    const regionList = Object.values(waveRef.current.regions.list);
+    setRegions(regionList);
   };
 
   const onPlayPause = () => {
@@ -96,6 +77,7 @@ const RefineVideo = () => {
 
   useEffect(() => {
     waveRef.current = WaveSurfer.create(wavesurferOptions as any);
+    waveRef.current.load(URL);
     waveRef.current.on("ready", () => {
       waveRef.current.addRegion({
         start: 4,
@@ -106,20 +88,19 @@ const RefineVideo = () => {
     });
     waveRef.current.on("region-created", (event: any) => createOption(event));
     waveRef.current.on("region-update-end", (event: any) => updateWave(event));
-
     waveRef.current.enableDragSelection({});
   }, []);
 
   return (
     <div>
-      <input type="file" onChange={createWave} />
       <ReactPlayer
         width={"100%"}
-        url={video}
+        url={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4`}
         ref={videoRef}
         muted={true}
         progressInterval={300}
         id={"videoplayer"}
+        controls={true}
       />
 
       <div
