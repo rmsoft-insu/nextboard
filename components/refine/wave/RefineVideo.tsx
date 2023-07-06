@@ -5,7 +5,7 @@ import * as WaveSurferRegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.r
 import randomColor from "randomcolor";
 import ReactPlayer from "react-player";
 
-const URL = `http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4`;
+const URL = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/video/m2.mp4`;
 
 const wavesurferOptions = {
   container: "#waveform",
@@ -33,6 +33,7 @@ const RefineVideo = () => {
 
   const [loading, setLoading] = useState(false);
   const [regions, setRegions] = useState([]);
+  const [list, setList] = useState([]);
 
   const [video, setVideo] = useState("");
 
@@ -54,6 +55,7 @@ const RefineVideo = () => {
   const updateWave = (event: any) => {
     waveRef.current.on("destroy", event);
     const regionList = Object.values(waveRef.current.regions.list);
+    console.log(regionList);
     setRegions(regionList);
   };
 
@@ -79,11 +81,15 @@ const RefineVideo = () => {
     waveRef.current = WaveSurfer.create(wavesurferOptions as any);
     waveRef.current.load(URL);
     waveRef.current.on("ready", () => {
-      waveRef.current.addRegion({
-        start: 4,
-        end: 8,
-        color: randomColor(),
+      dummy.forEach((region) => {
+        const { start, end, color } = region;
+        waveRef.current.addRegion({
+          start,
+          end,
+          color,
+        });
       });
+
       setLoading(true);
     });
     waveRef.current.on("region-created", (event: any) => createOption(event));
@@ -91,11 +97,17 @@ const RefineVideo = () => {
     waveRef.current.enableDragSelection({});
   }, []);
 
+  useEffect(() => {
+    setList(() => regions.map((el) => ({ start: el.start, end: el.end })));
+  }, [regions]);
+
+  console.log(list);
+
   return (
     <div>
       <ReactPlayer
         width={"100%"}
-        url={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4`}
+        url={URL}
         ref={videoRef}
         muted={true}
         progressInterval={300}
@@ -120,7 +132,8 @@ const RefineVideo = () => {
           >
             {region.element.title}
           </span>
-          <input type="text" />
+          {dummy.filter((el) => el.id == region.id) ? `${region.id}` : ""}
+          {/* <input type="text" defaultValue={() => settingValue(region.id)} /> */}
           <span onClick={() => onDeleteRegion(region.id)}>X</span>
         </div>
       ))}
@@ -129,3 +142,90 @@ const RefineVideo = () => {
 };
 
 export default RefineVideo;
+
+const dummy = [
+  {
+    start: 9.699275616042241,
+    end: 22.147185069357135,
+    id: "wavesurfer_di7rv2l4il",
+    color: "rgba(167, 169, 242, 0.3)",
+    contents: "안녕하세요 1",
+    speaker: "",
+    location: "",
+    gender: "",
+    ageGroup: "",
+    timeslot: "",
+  },
+  {
+    start: 174.2611886209896,
+    end: 199.3080051441226,
+    id: "wavesurfer_vokpnt1rk3g",
+    color: "rgba(255, 227, 135, 0.3)",
+    contents: "안녕하세요 2",
+    speaker: "",
+    location: "",
+    gender: "",
+    ageGroup: "",
+    timeslot: "",
+  },
+  {
+    start: 248.1295708675843,
+    end: 266.2272706308062,
+    id: "wavesurfer_ismkrr2pkg8",
+    color: "rgba(117, 234, 203, 0.3)",
+    contents: "안녕하세요 3",
+    speaker: "",
+    location: "",
+    gender: "",
+    ageGroup: "",
+    timeslot: "",
+  },
+  {
+    start: 274.4595494947695,
+    end: 297.3566392504479,
+    id: "wavesurfer_2608ldto03",
+    color: "rgba(178, 255, 195, 0.3)",
+    contents: "안녕하세요 4",
+    speaker: "",
+    location: "",
+    gender: "",
+    ageGroup: "",
+    timeslot: "",
+  },
+  {
+    start: 332.63550487869435,
+    end: 353.33287422116354,
+    id: "wavesurfer_1ue0q58o7i",
+    color: "rgba(252, 250, 159, 0.3)",
+    contents: "안녕하세요 5",
+    speaker: "",
+    location: "",
+    gender: "",
+    ageGroup: "",
+    timeslot: "",
+  },
+  {
+    start: 400.32690123063463,
+    end: 426.82353348065567,
+    id: "wavesurfer_5ae54u3ve5",
+    color: "rgba(167, 255, 140, 0.3)",
+    contents: "안녕하세요 6",
+    speaker: "",
+    location: "",
+    gender: "",
+    ageGroup: "",
+    timeslot: "",
+  },
+  {
+    start: 428.8288205987298,
+    end: 447.276475882235,
+    id: "wavesurfer_9h1njj78jho",
+    color: "rgba(167, 255, 140, 0.3)",
+    contents: "안녕하세요 7",
+    speaker: "",
+    location: "",
+    gender: "",
+    ageGroup: "",
+    timeslot: "",
+  },
+];
