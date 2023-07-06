@@ -4,6 +4,7 @@ import * as WaveSurferTimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.
 import * as WaveSurferRegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions";
 import randomColor from "randomcolor";
 import ReactPlayer from "react-player";
+import { useForm } from "react-hook-form";
 
 const URL = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/video/m2.mp4`;
 
@@ -37,6 +38,8 @@ const RefineVideo = () => {
 
   const [video, setVideo] = useState("");
 
+  const { register, handleSubmit, watch, setValue } = useForm();
+
   //React Player
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -55,7 +58,6 @@ const RefineVideo = () => {
   const updateWave = (event: any) => {
     waveRef.current.on("destroy", event);
     const regionList = Object.values(waveRef.current.regions.list);
-    console.log(regionList);
     setRegions(regionList);
   };
 
@@ -97,11 +99,26 @@ const RefineVideo = () => {
     waveRef.current.enableDragSelection({});
   }, []);
 
-  useEffect(() => {
-    setList(() => regions.map((el) => ({ start: el.start, end: el.end })));
+  const formatList = useCallback(() => {
+    return regions.map((el, index) => ({
+      start: el.start,
+      end: el.end,
+      color: el.color,
+      id: el.id,
+      title: el.element.title,
+      contents: dummy?.[index]?.contents ?? "",
+      speaker: dummy?.[index]?.contents ?? "",
+      gender: dummy?.[index]?.gender ?? "",
+    }));
   }, [regions]);
 
-  console.log(list);
+  useEffect(() => {
+    const sortedList = formatList().sort((previous, current) => {
+      if (previous.start > current.start) return 1;
+      if (previous.start < current.start) return -1;
+    });
+    sortedList.length !== 0 && setList(() => sortedList);
+  }, [formatList]);
 
   return (
     <div>
@@ -124,16 +141,29 @@ const RefineVideo = () => {
         style={{ visibility: `${loading ? "visible" : "hidden"}` }}
       />
       <button onClick={onPlayPause}>Play/Pause</button>
-      {regions.map((region, index) => (
+      <button onClick={handleSubmit((data) => console.log(data))}>제출</button>
+      {list.map((region) => (
         <div key={region.id}>
           <span
             onClick={() => onPlayRegion(region.id)}
             style={{ backgroundColor: `${region.id}` }}
           >
-            {region.element.title}
+            {region.title}
           </span>
-          {dummy.filter((el) => el.id == region.id) ? `${region.id}` : ""}
-          {/* <input type="text" defaultValue={() => settingValue(region.id)} /> */}
+          {region.contents}
+
+          <input
+            type="text"
+            defaultValue={region.contents}
+            {...register(`${region.id}_contents`)}
+          />
+
+          <input
+            type="text"
+            defaultValue={region.gender}
+            {...register(`${region.id})_gender`)}
+          />
+
           <span onClick={() => onDeleteRegion(region.id)}>X</span>
         </div>
       ))}
@@ -155,6 +185,7 @@ const dummy = [
     gender: "",
     ageGroup: "",
     timeslot: "",
+    correction: false,
   },
   {
     start: 174.2611886209896,
@@ -167,6 +198,7 @@ const dummy = [
     gender: "",
     ageGroup: "",
     timeslot: "",
+    correction: false,
   },
   {
     start: 248.1295708675843,
@@ -176,9 +208,10 @@ const dummy = [
     contents: "안녕하세요 3",
     speaker: "",
     location: "",
-    gender: "",
+    gender: "MALE",
     ageGroup: "",
     timeslot: "",
+    correction: false,
   },
   {
     start: 274.4595494947695,
@@ -188,9 +221,10 @@ const dummy = [
     contents: "안녕하세요 4",
     speaker: "",
     location: "",
-    gender: "",
+    gender: "FEMALE",
     ageGroup: "",
     timeslot: "",
+    correction: false,
   },
   {
     start: 332.63550487869435,
@@ -203,6 +237,7 @@ const dummy = [
     gender: "",
     ageGroup: "",
     timeslot: "",
+    correction: false,
   },
   {
     start: 400.32690123063463,
@@ -215,6 +250,7 @@ const dummy = [
     gender: "",
     ageGroup: "",
     timeslot: "",
+    correction: false,
   },
   {
     start: 428.8288205987298,
@@ -227,5 +263,6 @@ const dummy = [
     gender: "",
     ageGroup: "",
     timeslot: "",
+    correction: false,
   },
 ];
