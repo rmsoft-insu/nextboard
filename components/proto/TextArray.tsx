@@ -45,9 +45,27 @@ const TextArray = () => {
   const [list, setList] = useState(dummy);
 
   const handleDelete = (item) => {
-    console.log(list.filter((value) => value.id !== item.id));
     setList(() => list.filter((value) => value.id !== item.id));
   };
+
+  const handleCheck = (item) => {
+    setList(() =>
+      list.map((value) => {
+        if (value.id === item.id) {
+          value.correction = !value.correction;
+        }
+        return value;
+      })
+    );
+  };
+
+  // 반려 상태 확인 버튼
+  const rejectCheck = () => {
+    console.log(list.some((value) => value.correction === true));
+  };
+
+  // 반려 상태 설정
+  const rejectStatus = list.some((value) => value.correction === true);
 
   return (
     <div>
@@ -60,7 +78,10 @@ const TextArray = () => {
               type="checkbox"
               checked={item.correction}
             />
-            <CheckLabel htmlFor={`${item.id}`}>
+            <CheckLabel
+              htmlFor={`${item.id}`}
+              onClick={() => handleCheck(item)}
+            >
               <AiOutlineCheckCircle size={20} />
             </CheckLabel>
           </CheckContainer>
@@ -76,6 +97,12 @@ const TextArray = () => {
           </DeleteButton>
         </div>
       ))}
+      <button type="button" onClick={() => console.log(list)}>
+        버튼
+      </button>
+      <button type="button" onClick={rejectCheck}>
+        반려상태
+      </button>
     </div>
   );
 };
