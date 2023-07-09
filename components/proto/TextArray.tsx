@@ -48,7 +48,8 @@ const TextArray = () => {
     setList(() => list.filter((value) => value.id !== item.id));
   };
 
-  const handleCheck = (item) => {
+  const handleCheck = (event, item) => {
+    event.preventDefault();
     setList(() =>
       list.map((value) => {
         if (value.id === item.id) {
@@ -76,11 +77,11 @@ const TextArray = () => {
             <input
               id={`${item.id}`}
               type="checkbox"
-              checked={item.correction}
+              defaultChecked={item.correction}
             />
             <CheckLabel
               htmlFor={`${item.id}`}
-              onClick={() => handleCheck(item)}
+              onClick={(event) => handleCheck(event, item)}
             >
               <AiOutlineCheckCircle size={20} />
             </CheckLabel>
