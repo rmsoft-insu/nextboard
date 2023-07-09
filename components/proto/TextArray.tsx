@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { AiOutlineCheckCircle } from "react-icons/ai";
-import { BsXCircle } from "react-icons/bs";
 import styled from "styled-components";
+import dynamic from "next/dynamic";
+const Card = dynamic(() => import("./Card"));
 
 const dummy = [
   { id: 1, text: "Text 1", correction: true },
@@ -19,46 +19,9 @@ const CheckLabel = styled.label`
   }
 `;
 
-const CheckContainer = styled.div`
-  input[type="checkbox"] {
-    display: none;
-  }
-  input[type="checkbox"]:checked + ${CheckLabel} {
-    color: green;
-  }
-`;
-
-const DeleteButton = styled.div`
-  cursor: pointer;
-  &:hover {
-    color: red;
-  }
-`;
-
-const TextContainer = styled.div`
-  width: 200px;
-  background-color: burlywood;
-  border: 1px solid black;
-`;
-
 const TextArray = () => {
   const [list, setList] = useState(dummy);
-
-  const handleDelete = (item) => {
-    setList(() => list.filter((value) => value.id !== item.id));
-  };
-
-  const handleCheck = (event, item) => {
-    event.preventDefault();
-    setList(() =>
-      list.map((value) => {
-        if (value.id === item.id) {
-          value.correction = !value.correction;
-        }
-        return value;
-      })
-    );
-  };
+  const [id, setId] = useState(null);
 
   // 반려 상태 확인 버튼
   const rejectCheck = () => {
@@ -72,30 +35,17 @@ const TextArray = () => {
     <div>
       <div>Text Array</div>
       {list.map((item) => (
-        <div key={item.id} style={{ display: "flex", gap: "10px" }}>
-          <CheckContainer>
-            <input
-              id={`${item.id}`}
-              type="checkbox"
-              defaultChecked={item.correction}
-            />
-            <CheckLabel
-              htmlFor={`${item.id}`}
-              onClick={(event) => handleCheck(event, item)}
-            >
-              <AiOutlineCheckCircle size={20} />
-            </CheckLabel>
-          </CheckContainer>
-
-          <div>00:00 ~ 00:00</div>
-
-          <TextContainer>
-            <div>{item.text}</div>
-          </TextContainer>
-
-          <DeleteButton onClick={() => handleDelete(item)}>
-            <BsXCircle size={20} />
-          </DeleteButton>
+        <div
+          key={item.id}
+          style={{ display: "flex", gap: "10px", backgroundColor: "bisque" }}
+        >
+          <Card
+            setId={setId}
+            id={id}
+            list={list}
+            setList={setList}
+            item={item}
+          />
         </div>
       ))}
       <button type="button" onClick={() => console.log(list)}>
