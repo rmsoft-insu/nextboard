@@ -1,5 +1,11 @@
 import * as React from "react";
-import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
+import {
+  useForm,
+  useFieldArray,
+  Controller,
+  useWatch,
+  FieldValues,
+} from "react-hook-form";
 
 let renderCount = 0;
 
@@ -10,7 +16,9 @@ const ConditionalInput = ({ control, index, field }) => {
     <Controller
       control={control}
       name={`test.${index}.firstName`}
-      render={() => (value?.[index]?.checkbox === "on" ? <></> : null)}
+      render={({ field }) =>
+        value?.[index]?.checkbox === "on" ? <input {...field} /> : null
+      }
       defaultValue={field.firstName}
     />
   );
@@ -25,13 +33,19 @@ const ArrayExample = () => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {fields.map((field, index) => {
+        {fields.map((field: FieldValues, index) => {
           const id = `test.${index}.checkbox`;
           return (
             <div key={field.id}>
               <section>
-                <label htmlFor={id}></label>
-                <input {...register(id)} defaultChecked={field.checked} />
+                <label htmlFor={id}>Show Input</label>
+                <input
+                  type="checkbox"
+                  value="on"
+                  id={id}
+                  {...register(id)}
+                  defaultChecked={field.checked}
+                />
                 <ConditionalInput {...{ control, index, field }} />
               </section>
             </div>
