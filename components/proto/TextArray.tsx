@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styled from "styled-components";
 import dynamic from "next/dynamic";
 const Card = dynamic(() => import("./Card"));
 
@@ -11,13 +10,6 @@ const dummy = [
   { id: 5, text: "Text 5", correction: false },
   { id: 6, text: "Text 6", correction: false },
 ];
-
-const CheckLabel = styled.label`
-  cursor: pointer;
-  &:hover {
-    color: green;
-  }
-`;
 
 const TextArray = () => {
   const [list, setList] = useState(dummy);
