@@ -8,6 +8,25 @@ const array = [
   { id: 4, name: "Hi-4" },
   { id: 5, name: "Hi-5" },
   { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
+  { id: 6, name: "Hi-6" },
 ];
 
 const List = ({ items }) => {
@@ -21,7 +40,7 @@ const List = ({ items }) => {
   const { fields, remove } = useFieldArray({ control, name: "test" });
 
   return (
-    <form>
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
       <FixedSizeList
         width={400}
         height={500}
@@ -45,6 +64,7 @@ const List = ({ items }) => {
           );
         }}
       </FixedSizeList>
+      <button type="submit">Submit</button>
     </form>
   );
 };
