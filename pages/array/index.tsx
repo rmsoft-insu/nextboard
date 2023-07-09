@@ -1,4 +1,5 @@
 import Accordion from "@/components/array/Accordion";
+import AddItem from "@/components/array/AddItem";
 import DummyArray from "@/components/array/DummyArray";
 import ExpandArray from "@/components/array/ExpandArray";
 import NestedArray from "@/components/array/NestedArray";
@@ -12,6 +13,7 @@ const ArrayExample = () => {
       <NormalArray />
       <DummyArray />
       <Accordion />
+      <AddItem />
     </>
   );
 };
