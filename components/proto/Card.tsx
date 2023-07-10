@@ -4,7 +4,6 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import { BsXCircle } from "react-icons/bs";
 import styled from "styled-components";
 import RefineMeta from "./RefineMeta";
-import RefineText from "./RefineText";
 
 const variants: Variants = {
   open: {
@@ -87,6 +86,7 @@ const Card = ({ setId, item, id, list, setList }) => {
         key={item.id}
         animate={open ? "open" : "closed"}
         style={{ width: "100%", display: "flex" }}
+        onClick={isOpen ? handleClick : () => {}}
       >
         <CheckContainer>
           <input
@@ -103,9 +103,11 @@ const Card = ({ setId, item, id, list, setList }) => {
 
         {/* 발화 문장 입력 받는 Component */}
 
-        <textarea onFocus={handleClick} onBlur={handleClick}>
-          {item.text}
-        </textarea>
+        {isOpen ? (
+          <textarea>{item.text}</textarea>
+        ) : (
+          <div onClick={handleClick}>{item.text}</div>
+        )}
 
         <DeleteButton onClick={() => handleDelete(item)}>
           <BsXCircle size={20} />
