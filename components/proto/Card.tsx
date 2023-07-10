@@ -104,7 +104,10 @@ const Card = ({ setId, item, id, list, setList }) => {
         {/* 발화 문장 입력 받는 Component */}
 
         {isOpen ? (
-          <textarea>{item.text}</textarea>
+          <textarea
+            defaultValue={item.text}
+            onClick={(e) => e.stopPropagation()}
+          />
         ) : (
           <div onClick={handleClick}>{item.text}</div>
         )}
@@ -123,7 +126,7 @@ const Card = ({ setId, item, id, list, setList }) => {
           style={{ width: "100%", backgroundColor: "skyblue" }}
         >
           {/* Meta 데이터 입력 받는 Component */}
-          <RefineMeta />
+          <RefineMeta id={item.id} />
         </motion.div>
       </AnimatePresence>
     </div>
