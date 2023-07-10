@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { BsXCircle } from "react-icons/bs";
 import styled from "styled-components";
+import RefineMeta from "./RefineMeta";
+import RefineText from "./RefineText";
 
 const variants: Variants = {
   open: {
@@ -47,7 +49,6 @@ const DeleteButton = styled.div`
 
 const Card = ({ setId, item, id, list, setList }) => {
   const [open, setOpen] = useState(false);
-
   const isOpen = id === item.id;
 
   const handleClick = () => {
@@ -100,7 +101,11 @@ const Card = ({ setId, item, id, list, setList }) => {
 
         <div>00:00 ~ 00:00</div>
 
-        <div onClick={handleClick}>{item.text}</div>
+        {/* 발화 문장 입력 받는 Component */}
+
+        <textarea onFocus={handleClick} onBlur={handleClick}>
+          {item.text}
+        </textarea>
 
         <DeleteButton onClick={() => handleDelete(item)}>
           <BsXCircle size={20} />
@@ -115,7 +120,8 @@ const Card = ({ setId, item, id, list, setList }) => {
           variants={variants}
           style={{ width: "100%", backgroundColor: "skyblue" }}
         >
-          <div>Contents</div>
+          {/* Meta 데이터 입력 받는 Component */}
+          <RefineMeta />
         </motion.div>
       </AnimatePresence>
     </div>
