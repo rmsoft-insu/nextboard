@@ -34,13 +34,6 @@ const WordTag = () => {
           <label htmlFor={el.value}>{el.label}</label>
         </div>
       ))}
-      {open ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input type="text" {...register("slang")} />
-        </form>
-      ) : (
-        ""
-      )}
 
       {list.map((item, index) => (
         <div key={index}>
