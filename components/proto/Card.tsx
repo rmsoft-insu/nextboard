@@ -46,34 +46,40 @@ const DeleteButton = styled.div`
   }
 `;
 
-const Card = ({ setId, item, id, list, setList }) => {
+const Card = (props) => {
+  const { setId, item, id, list, setList, setValue, index, remove, ...rest } =
+    props;
+  console.log("item", item);
+  console.log("list", list);
+  console.log("rest", rest);
+  console.log("id", id);
+  const { id: textId, correction, text } = rest.value;
   const [open, setOpen] = useState(false);
-  const isOpen = id === item.id;
+  const isOpen = id === textId;
 
   const handleClick = () => {
-    setId(isOpen ? false : item.id);
+    setId(isOpen ? false : textId);
     setOpen(isOpen);
   };
 
   const listCheck = useCallback(() => {
+    setValue();
     setList(() =>
       list.map((value) => {
-        if (value.id === item.id) {
+        if (value.id === textId) {
           value.correction = !value.correction;
         }
         return value;
       })
     );
-  }, [list, setList, item.id]);
+  }, [list, setList, textId]);
 
   const handleCheck = (event) => {
     event.preventDefault();
     listCheck();
   };
 
-  const handleDelete = (item) => {
-    setList(() => list.filter((value) => value.id !== item.id));
-  };
+  const handleDelete = () => remove(index);
 
   useEffect(() => {
     isOpen ? setOpen(true) : setOpen(false);
@@ -83,18 +89,18 @@ const Card = ({ setId, item, id, list, setList }) => {
     <div style={{ display: "grid", width: "100%" }}>
       <motion.div
         initial={false}
-        key={item.id}
+        key={textId}
         animate={open ? "open" : "closed"}
         style={{ width: "100%", display: "flex" }}
         onClick={isOpen ? handleClick : () => {}}
       >
         <CheckContainer>
           <input
-            id={`${item.id}`}
+            id={`regionList.${index}.correction`}
             type="checkbox"
-            defaultChecked={item.correction}
+            defaultChecked={correction}
           />
-          <CheckLabel htmlFor={`${item.id}`} onClick={handleCheck}>
+          <CheckLabel htmlFor={`${textId}`} onClick={handleCheck}>
             <AiOutlineCheckCircle size={20} />
           </CheckLabel>
         </CheckContainer>
@@ -104,15 +110,12 @@ const Card = ({ setId, item, id, list, setList }) => {
         {/* 발화 문장 입력 받는 Component */}
 
         {isOpen ? (
-          <textarea
-            defaultValue={item.text}
-            onClick={(e) => e.stopPropagation()}
-          />
+          <textarea defaultValue={text} onClick={(e) => e.stopPropagation()} />
         ) : (
-          <div onClick={handleClick}>{item.text}</div>
+          <div onClick={handleClick}>{text}</div>
         )}
 
-        <DeleteButton onClick={() => handleDelete(item)}>
+        <DeleteButton onClick={handleDelete}>
           <BsXCircle size={20} />
         </DeleteButton>
       </motion.div>
@@ -126,7 +129,7 @@ const Card = ({ setId, item, id, list, setList }) => {
           style={{ width: "100%", backgroundColor: "skyblue" }}
         >
           {/* Meta 데이터 입력 받는 Component */}
-          <RefineMeta id={item.id} />
+          <RefineMeta id={textId} />
         </motion.div>
       </AnimatePresence>
     </div>
