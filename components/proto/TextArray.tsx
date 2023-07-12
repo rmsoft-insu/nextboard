@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FixedSizeList } from "react-window";
 import TextContent from "./TextContent";
@@ -11,7 +11,7 @@ const dummy = [
     timeSlot: "MORNING",
     location: "OUTDOOR",
     speaker: "speaker1",
-    ageGroup: "10대",
+    ageGroup: "beforeTwenties",
     correction: true,
   },
   {
@@ -21,7 +21,7 @@ const dummy = [
     timeSlot: "MORNING",
     location: "INDOOR",
     speaker: "speaker2",
-    ageGroup: "20대",
+    ageGroup: "twenties",
     correction: true,
   },
   {
@@ -31,7 +31,7 @@ const dummy = [
     timeSlot: "MORNING",
     location: "INDOOR",
     speaker: "speaker3",
-    ageGroup: "30대",
+    ageGroup: "thirties",
     correction: false,
   },
   {
@@ -41,7 +41,7 @@ const dummy = [
     timeSlot: "MORNING",
     location: "OUTDOOR",
     speaker: "speaker4",
-    ageGroup: "40대",
+    ageGroup: "fourties",
     correction: true,
   },
   {
@@ -51,7 +51,7 @@ const dummy = [
     timeSlot: "AFTERNOON",
     location: "INDOOR",
     speaker: "speaker5",
-    ageGroup: "50대",
+    ageGroup: "fifties",
     correction: false,
   },
   {
@@ -61,7 +61,7 @@ const dummy = [
     timeSlot: "MORNING",
     location: "INDOOR",
     speaker: "",
-    ageGroup: "60대",
+    ageGroup: "afterSixties",
     correction: false,
   },
 ];

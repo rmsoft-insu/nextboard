@@ -33,6 +33,15 @@ const speakers = [
   { value: "speaker6", label: "스트리머6" },
 ];
 
+const ageGroups = [
+  { value: "beforeTwenties", label: "20대 이하" },
+  { value: "twenties", label: "20대" },
+  { value: "thirties", label: "30대" },
+  { value: "fourties", label: "40대" },
+  { value: "fifties", label: "50대" },
+  { value: "afterSixties", label: "60대이상" },
+];
+
 const DeleteButton = styled.div`
   cursor: pointer;
   &:hover {
@@ -144,6 +153,18 @@ const SelectSpeaker = ({ name, value, ...rest }) => {
   );
 };
 
+const SelectAge = ({ name, value, ...rest }) => {
+  return (
+    <Select
+      onChange={(e) => rest.onChange(e.value)}
+      options={ageGroups}
+      placeholder="연령대선택"
+      defaultValue={ageGroups.filter((ageGroup) => ageGroup.value === value)}
+      name={name}
+    />
+  );
+};
+
 const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
   const [open, setOpen] = useState(false);
   const isOpen = clickedId === index;
@@ -224,7 +245,7 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
           <Controller
             control={control}
             name={`regionList.${index}.ageGroup`}
-            render={({ field }) => <div>{field.value}</div>}
+            render={({ field }) => <SelectAge {...field} />}
           />
         </motion.div>
       </AnimatePresence>
