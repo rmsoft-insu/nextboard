@@ -153,7 +153,6 @@ const SelectSpeaker = ({ name, value, ...rest }) => {
 };
 
 const SelectAge = ({ name, value, ...rest }) => {
-  console.log(value);
   return (
     <Select
       onChange={(e) => rest.onChange(e.value)}
