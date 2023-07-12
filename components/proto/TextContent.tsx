@@ -97,6 +97,31 @@ const TimeSlotInput = ({ name, value, ...rest }) => {
   );
 };
 
+const LocationInput = ({ name, value, ...rest }) => {
+  return (
+    <div>
+      <input
+        type="radio"
+        id={`${name}_OUTDOOR`}
+        name={name}
+        value="OUTDOOR"
+        defaultChecked={value === "OUTDOOR"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_OUTDOOR`}>실외</label>
+      <input
+        type="radio"
+        id={`${name}_INDOOR`}
+        name={name}
+        value="INDOOR"
+        defaultChecked={value === "INDOOR"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_INDOOR`}>실내</label>
+    </div>
+  );
+};
+
 const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
   const [open, setOpen] = useState(false);
   const isOpen = clickedId === index;
@@ -167,7 +192,7 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
           <Controller
             control={control}
             name={`regionList.${index}.location`}
-            render={({ field }) => <div>{field.value}</div>}
+            render={({ field }) => <LocationInput {...field} />}
           />
           <Controller
             control={control}
