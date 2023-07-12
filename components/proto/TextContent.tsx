@@ -49,7 +49,7 @@ const InputText = ({ value, name, isOpen, handleClick, ...rest }) => {
 
 const GenderInput = ({ name, value, ...rest }) => {
   return (
-    <>
+    <div>
       <input
         type="radio"
         id={`${name}_MALE`}
@@ -68,7 +68,32 @@ const GenderInput = ({ name, value, ...rest }) => {
         {...rest}
       />
       <label htmlFor={`${name}_FEMALE`}>여성</label>
-    </>
+    </div>
+  );
+};
+
+const TimeSlotInput = ({ name, value, ...rest }) => {
+  return (
+    <div>
+      <input
+        type="radio"
+        id={`${name}_MORNING`}
+        name={name}
+        value="MORNING"
+        defaultChecked={value === "MORNING"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_MORNING`}>오전</label>
+      <input
+        type="radio"
+        id={`${name}_AFTERNOON`}
+        name={name}
+        value="AFTERNOON"
+        defaultChecked={value === "AFTERNOON"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_AFTERNOON`}>오후</label>
+    </div>
   );
 };
 
@@ -137,7 +162,7 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
           <Controller
             control={control}
             name={`regionList.${index}.timeSlot`}
-            render={({ field }) => <div>{field.value}</div>}
+            render={({ field }) => <TimeSlotInput {...field} />}
           />
           <Controller
             control={control}
