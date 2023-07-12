@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import { Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Correction from "./RejectYn";
 import styled from "styled-components";
 import { BsXCircle } from "react-icons/bs";
@@ -34,12 +34,10 @@ const speakers = [
 ];
 
 const ageGroups = [
-  { value: "TEENAGER", label: "10대" },
-  { value: "TWENTY", label: "20대" },
-  { value: "THIRTY", label: "30대" },
-  { value: "FOURTY", label: "40대" },
-  { value: "FIFTY", label: "50대" },
-  { value: "SIXTY", label: "60대이상" },
+  { value: "PRE_TEENS", label: "10대 미만" },
+  { value: "TEENAGER_TO_THIRTIES", label: "10대 ~ 30대" },
+  { value: "THIRTIES_TO_FIFITES", label: "30대 ~ 50대" },
+  { value: "SIXTIES_AND_ABOVE", label: "60대 이상" },
 ];
 
 const DeleteButton = styled.div`
@@ -142,10 +140,18 @@ const PlaceInput = ({ name, value, ...rest }) => {
 };
 
 const WordTagInput = ({ name, value, ...rest }) => {
-  console.log(value);
+  console.log(rest);
+  const [list, setList] = useState(value);
+  const { register, handleSubmit, reset } = useForm();
+
   return (
     <div>
-      {value?.map((el) => (
+      <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <input type="text" {...register(`${name}`)} />
+        <button>추가하기</button>
+      </form>
+
+      {list?.map((el) => (
         <div key={el.word}>{el.word}</div>
       ))}
     </div>

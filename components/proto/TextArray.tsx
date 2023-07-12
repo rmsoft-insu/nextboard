@@ -11,7 +11,7 @@ const dummy = [
     day: "MORNING",
     place: "OUTDOOR",
     speaker: "speaker1",
-    ageGroup: "TWENTY",
+    ageGroup: "PRE_TEENS",
     rejectYn: "YES",
     wordTags: [
       { type: "NEOLOGISM", word: "Hi", languageType: "KOREAN" },
@@ -25,7 +25,7 @@ const dummy = [
     day: "MORNING",
     place: "INDOOR",
     speaker: "speaker2",
-    ageGroup: "TWENTY",
+    ageGroup: "TEENAGER_TO_THIRTIES",
     rejectYn: "YES",
     wordTags: [],
   },
@@ -36,7 +36,7 @@ const dummy = [
     day: "MORNING",
     place: "INDOOR",
     speaker: "speaker3",
-    ageGroup: "THIRTY",
+    ageGroup: "THIRTIES_TO_FIFITES",
     rejectYn: "NO",
     wordTags: [],
   },
@@ -47,7 +47,7 @@ const dummy = [
     day: "MORNING",
     place: "OUTDOOR",
     speaker: "speaker4",
-    ageGroup: "FOURTY",
+    ageGroup: "SIXTIES_AND_ABOVE",
     rejectYn: "YES",
     wordTags: [],
   },
@@ -58,7 +58,7 @@ const dummy = [
     day: "AFTERNOON",
     place: "INDOOR",
     speaker: "speaker5",
-    ageGroup: "FIFTY",
+    ageGroup: "TEENAGER_TO_THIRTIES",
     rejectYn: "NO",
     wordTags: [],
   },
@@ -69,7 +69,7 @@ const dummy = [
     day: "MORNING",
     place: "INDOOR",
     speaker: "",
-    ageGroup: "SIXTY",
+    ageGroup: "THIRTIES_TO_FIFITES",
     rejectYn: "NO",
     wordTags: [],
   },
@@ -93,7 +93,7 @@ const List = () => {
   const { fields, remove } = useFieldArray({ control, name: "regionList" });
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log("data", data))}>
+    <div>
       <FixedSizeList
         width={400}
         height={500}
@@ -114,8 +114,8 @@ const List = () => {
           );
         }}
       </FixedSizeList>
-      <button type="submit">Submit</button>
-    </form>
+      <button type="button">Submit</button>
+    </div>
   );
 };
 
