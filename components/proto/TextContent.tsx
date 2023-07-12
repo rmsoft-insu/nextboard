@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 import Correction from "./Correction";
 import styled from "styled-components";
 import { BsXCircle } from "react-icons/bs";
+import Select from "react-select";
 
 const variants: Variants = {
   open: {
@@ -22,6 +23,15 @@ const variants: Variants = {
   },
   collapsed: { opacity: 0, height: "0" },
 };
+
+const speakers = [
+  { value: "speaker1", label: "스트리머1" },
+  { value: "speaker2", label: "스트리머2" },
+  { value: "speaker3", label: "스트리머3" },
+  { value: "speaker4", label: "스트리머4" },
+  { value: "speaker5", label: "스트리머5" },
+  { value: "speaker6", label: "스트리머6" },
+];
 
 const DeleteButton = styled.div`
   cursor: pointer;
@@ -122,6 +132,18 @@ const LocationInput = ({ name, value, ...rest }) => {
   );
 };
 
+const SelectSpeaker = ({ name, value, ...rest }) => {
+  return (
+    <Select
+      onChange={(e) => rest.onChange(e.value)}
+      options={speakers}
+      placeholder="화자선택"
+      defaultValue={speakers.filter((speaker) => speaker.value === value)}
+      name={name}
+    />
+  );
+};
+
 const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
   const [open, setOpen] = useState(false);
   const isOpen = clickedId === index;
@@ -197,7 +219,7 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
           <Controller
             control={control}
             name={`regionList.${index}.speaker`}
-            render={({ field }) => <div>{field.value}</div>}
+            render={({ field }) => <SelectSpeaker {...field} />}
           />
           <Controller
             control={control}
