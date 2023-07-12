@@ -34,12 +34,12 @@ const speakers = [
 ];
 
 const ageGroups = [
-  { value: "beforeTwenties", label: "20대 이하" },
-  { value: "twenties", label: "20대" },
-  { value: "thirties", label: "30대" },
-  { value: "fourties", label: "40대" },
-  { value: "fifties", label: "50대" },
-  { value: "afterSixties", label: "60대이상" },
+  { value: "TEENAGER", label: "10대" },
+  { value: "TWENTY", label: "20대" },
+  { value: "THIRTY", label: "30대" },
+  { value: "FOURTY", label: "40대" },
+  { value: "FIFTY", label: "50대" },
+  { value: "SIXTY", label: "60대이상" },
 ];
 
 const DeleteButton = styled.div`
@@ -142,26 +142,12 @@ const PlaceInput = ({ name, value, ...rest }) => {
 };
 
 const WordTagInput = ({ name, value, ...rest }) => {
+  console.log(value);
   return (
     <div>
-      <input
-        type="radio"
-        id={`${name}_OUTDOOR`}
-        name={name}
-        value="OUTDOOR"
-        defaultChecked={value === "OUTDOOR"}
-        {...rest}
-      />
-      <label htmlFor={`${name}_OUTDOOR`}>실외</label>
-      <input
-        type="radio"
-        id={`${name}_INDOOR`}
-        name={name}
-        value="INDOOR"
-        defaultChecked={value === "INDOOR"}
-        {...rest}
-      />
-      <label htmlFor={`${name}_INDOOR`}>실내</label>
+      {value?.map((el) => (
+        <div key={el.word}>{el.word}</div>
+      ))}
     </div>
   );
 };
