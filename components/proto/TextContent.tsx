@@ -47,6 +47,31 @@ const InputText = ({ value, name, isOpen, handleClick, ...rest }) => {
   );
 };
 
+const GenderInput = ({ name, value, ...rest }) => {
+  return (
+    <>
+      <input
+        type="radio"
+        id={`${name}_MALE`}
+        name={name}
+        value="MALE"
+        defaultChecked={value === "MALE"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_MALE`}>남성</label>
+      <input
+        type="radio"
+        id={`${name}_FEMALE`}
+        name={name}
+        value="FEMALE"
+        defaultChecked={value === "FEMALE"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_FEMALE`}>여성</label>
+    </>
+  );
+};
+
 const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
   const [open, setOpen] = useState(false);
   const isOpen = clickedId === index;
@@ -107,7 +132,7 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
           <Controller
             control={control}
             name={`regionList.${index}.gender`}
-            render={({ field }) => <div>{field.value}</div>}
+            render={({ field }) => <GenderInput {...field} />}
           />
           <Controller
             control={control}
