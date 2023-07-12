@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { FixedSizeList } from "react-window";
-import TextContent from "./TextContent";
+import dynamic from "next/dynamic";
+
+const TextContent = dynamic(() => import("./TextContent"));
 
 const dummy = [
   {
@@ -34,10 +35,10 @@ const dummy = [
     },
   },
   {
-    speakerIdx: 3,
+    text: "Text 3",
     rejectYn: "NO",
     meta: {
-      text: "Text 3",
+      speakerIdx: 3,
       gender: "MALE",
       day: "MORNING",
       place: "INDOOR",
@@ -47,10 +48,10 @@ const dummy = [
     },
   },
   {
-    speakerIdx: 4,
+    text: "Text 4",
     rejectYn: "YES",
     meta: {
-      text: "Text 4",
+      speakerIdx: 4,
       gender: "FEMALE",
       day: "MORNING",
       place: "OUTDOOR",
@@ -60,10 +61,10 @@ const dummy = [
     },
   },
   {
-    speakerIdx: 5,
     rejectYn: "NO",
+    text: "Text 5",
     meta: {
-      text: "Text 5",
+      speakerIdx: 5,
       gender: "MALE",
       day: "AFTERNOON",
       place: "INDOOR",
@@ -73,10 +74,10 @@ const dummy = [
     },
   },
   {
-    speakerIdx: 6,
     rejectYn: "NO",
+    text: "Text 6",
     meta: {
-      text: "Text 6",
+      speakerIdx: 6,
       gender: "FEMALE",
       day: "MORNING",
       place: "INDOOR",
@@ -106,26 +107,17 @@ const List = () => {
 
   return (
     <div>
-      <FixedSizeList
-        width={400}
-        height={500}
-        itemSize={40}
-        itemCount={fields.length}
-        itemData={fields}
-        itemKey={(index) => fields[index].speakerIdx}
-      >
-        {({ style, index, data }) => {
-          return (
-            <TextContent
-              index={index}
-              remove={remove}
-              control={control}
-              setClickedId={setClickedId}
-              clickedId={clickedId}
-            />
-          );
-        }}
-      </FixedSizeList>
+      {fields.map((item, index) => (
+        <div key={item.id}>
+          <TextContent
+            index={index}
+            remove={remove}
+            control={control}
+            setClickedId={setClickedId}
+            clickedId={clickedId}
+          />
+        </div>
+      ))}
       <button onClick={handleSubmit((data) => console.log(data))}>
         Submit
       </button>
