@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import Correction from "./RejectYn";
 import styled from "styled-components";
 import { BsXCircle } from "react-icons/bs";
 import Select from "react-select";
+import WordTagInput from "./WordTagInput";
 
 const variants: Variants = {
   open: {
@@ -135,25 +136,6 @@ const PlaceInput = ({ name, value, ...rest }) => {
         {...rest}
       />
       <label htmlFor={`${name}_INDOOR`}>실내</label>
-    </div>
-  );
-};
-
-const WordTagInput = ({ name, value, ...rest }) => {
-  console.log(rest);
-  const [list, setList] = useState(value);
-  const { register, handleSubmit, reset } = useForm();
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
-        <input type="text" {...register(`${name}`)} />
-        <button>추가하기</button>
-      </form>
-
-      {list?.map((el) => (
-        <div key={el.word}>{el.word}</div>
-      ))}
     </div>
   );
 };

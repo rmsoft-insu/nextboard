@@ -1,5 +1,5 @@
 import Select from "react-select";
-import WordTag from "../WordTag";
+import WordTag from "./WordTag";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },

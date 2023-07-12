@@ -114,7 +114,9 @@ const List = () => {
           );
         }}
       </FixedSizeList>
-      <button type="button">Submit</button>
+      <button onClick={handleSubmit((data) => console.log(data))}>
+        Submit
+      </button>
     </div>
   );
 };
