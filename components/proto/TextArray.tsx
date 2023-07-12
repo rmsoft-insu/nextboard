@@ -13,6 +13,10 @@ const dummy = [
     speaker: "speaker1",
     ageGroup: "beforeTwenties",
     rejectYn: "YES",
+    wordTags: [
+      { type: "NEOLOGISM ", word: "Hi", languageType: "KOREAN" },
+      { type: "ABBERVIATION", word: "Hello", languageType: "KOREAN" },
+    ],
   },
   {
     speakerIdx: 2,
@@ -23,6 +27,7 @@ const dummy = [
     speaker: "speaker2",
     ageGroup: "twenties",
     rejectYn: "YES",
+    wordTags: [],
   },
   {
     speakerIdx: 3,
@@ -33,6 +38,7 @@ const dummy = [
     speaker: "speaker3",
     ageGroup: "thirties",
     rejectYn: "NO",
+    wordTags: [],
   },
   {
     speakerIdx: 4,
@@ -43,6 +49,7 @@ const dummy = [
     speaker: "speaker4",
     ageGroup: "fourties",
     rejectYn: "YES",
+    wordTags: [],
   },
   {
     speakerIdx: 5,
@@ -53,6 +60,7 @@ const dummy = [
     speaker: "speaker5",
     ageGroup: "fifties",
     rejectYn: "NO",
+    wordTags: [],
   },
   {
     speakerIdx: 6,
@@ -63,6 +71,7 @@ const dummy = [
     speaker: "",
     ageGroup: "afterSixties",
     rejectYn: "NO",
+    wordTags: [],
   },
 ];
 
