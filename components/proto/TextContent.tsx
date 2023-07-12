@@ -223,32 +223,32 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
         >
           <Controller
             control={control}
-            name={`regionList.${index}.gender`}
+            name={`regionList.${index}.meta.gender`}
             render={({ field }) => <GenderInput {...field} />}
           />
           <Controller
             control={control}
-            name={`regionList.${index}.day`}
+            name={`regionList.${index}.meta.day`}
             render={({ field }) => <TimeSlotInput {...field} />}
           />
           <Controller
             control={control}
-            name={`regionList.${index}.place`}
+            name={`regionList.${index}.meta.place`}
             render={({ field }) => <PlaceInput {...field} />}
           />
           <Controller
             control={control}
-            name={`regionList.${index}.speaker`}
+            name={`regionList.${index}.metaspeaker`}
             render={({ field }) => <SelectSpeaker {...field} />}
           />
           <Controller
             control={control}
-            name={`regionList.${index}.ageGroup`}
+            name={`regionList.${index}.meta.geGroup`}
             render={({ field }) => <SelectAge {...field} />}
           />
           <Controller
             control={control}
-            name={`regionList.${index}.wordTags`}
+            name={`regionList.${index}.meta.wordTags`}
             render={({ field }) => <WordTagInput {...field} />}
           />
         </motion.div>
