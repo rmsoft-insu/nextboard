@@ -5,64 +5,64 @@ import TextContent from "./TextContent";
 
 const dummy = [
   {
-    id: 1,
+    speakerIdx: 1,
     text: "Text 1",
     gender: "MALE",
-    timeSlot: "MORNING",
-    location: "OUTDOOR",
+    day: "MORNING",
+    place: "OUTDOOR",
     speaker: "speaker1",
     ageGroup: "beforeTwenties",
-    correction: true,
+    rejectYn: "YES",
   },
   {
-    id: 2,
+    speakerIdx: 2,
     text: "Text 2",
     gender: "FEMALE",
-    timeSlot: "MORNING",
-    location: "INDOOR",
+    day: "MORNING",
+    place: "INDOOR",
     speaker: "speaker2",
     ageGroup: "twenties",
-    correction: true,
+    rejectYn: "YES",
   },
   {
-    id: 3,
+    speakerIdx: 3,
     text: "Text 3",
     gender: "MALE",
-    timeSlot: "MORNING",
-    location: "INDOOR",
+    day: "MORNING",
+    place: "INDOOR",
     speaker: "speaker3",
     ageGroup: "thirties",
-    correction: false,
+    rejectYn: "NO",
   },
   {
-    id: 4,
+    speakerIdx: 4,
     text: "Text 4",
     gender: "FEMALE",
-    timeSlot: "MORNING",
-    location: "OUTDOOR",
+    day: "MORNING",
+    place: "OUTDOOR",
     speaker: "speaker4",
     ageGroup: "fourties",
-    correction: true,
+    rejectYn: "YES",
   },
   {
-    id: 5,
+    speakerIdx: 5,
     text: "Text 5",
     gender: "MALE",
-    timeSlot: "AFTERNOON",
-    location: "INDOOR",
+    day: "AFTERNOON",
+    place: "INDOOR",
     speaker: "speaker5",
     ageGroup: "fifties",
-    correction: false,
+    rejectYn: "NO",
   },
   {
-    id: 6,
+    speakerIdx: 6,
     text: "Text 6",
     gender: "FEMALE",
-    timeSlot: "MORNING",
-    location: "INDOOR",
+    day: "MORNING",
+    place: "INDOOR",
     speaker: "",
     ageGroup: "afterSixties",
-    correction: false,
+    rejectYn: "NO",
   },
 ];
 
@@ -91,7 +91,7 @@ const List = () => {
         itemSize={40}
         itemCount={fields.length}
         itemData={fields}
-        itemKey={(index) => fields[index].id}
+        itemKey={(index) => fields[index].speakerIdx}
       >
         {({ style, index, data }) => {
           return (

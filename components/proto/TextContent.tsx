@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Controller } from "react-hook-form";
-import Correction from "./Correction";
+import Correction from "./RejectYn";
 import styled from "styled-components";
 import { BsXCircle } from "react-icons/bs";
 import Select from "react-select";
@@ -116,7 +116,32 @@ const TimeSlotInput = ({ name, value, ...rest }) => {
   );
 };
 
-const LocationInput = ({ name, value, ...rest }) => {
+const PlaceInput = ({ name, value, ...rest }) => {
+  return (
+    <div>
+      <input
+        type="radio"
+        id={`${name}_OUTDOOR`}
+        name={name}
+        value="OUTDOOR"
+        defaultChecked={value === "OUTDOOR"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_OUTDOOR`}>실외</label>
+      <input
+        type="radio"
+        id={`${name}_INDOOR`}
+        name={name}
+        value="INDOOR"
+        defaultChecked={value === "INDOOR"}
+        {...rest}
+      />
+      <label htmlFor={`${name}_INDOOR`}>실내</label>
+    </div>
+  );
+};
+
+const WordTagInput = ({ name, value, ...rest }) => {
   return (
     <div>
       <input
@@ -195,7 +220,7 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
       >
         <Controller
           render={({ field }) => <Correction {...field} />}
-          name={`regionList.${index}.correction`}
+          name={`regionList.${index}.rejectYn`}
           control={control}
         />
 
@@ -229,13 +254,13 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
           />
           <Controller
             control={control}
-            name={`regionList.${index}.timeSlot`}
+            name={`regionList.${index}.day`}
             render={({ field }) => <TimeSlotInput {...field} />}
           />
           <Controller
             control={control}
-            name={`regionList.${index}.location`}
-            render={({ field }) => <LocationInput {...field} />}
+            name={`regionList.${index}.place`}
+            render={({ field }) => <PlaceInput {...field} />}
           />
           <Controller
             control={control}
@@ -246,6 +271,11 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
             control={control}
             name={`regionList.${index}.ageGroup`}
             render={({ field }) => <SelectAge {...field} />}
+          />
+          <Controller
+            control={control}
+            name={`regionList.${index}.wordTags`}
+            render={({ field }) => <WordTagInput {...field} />}
           />
         </motion.div>
       </AnimatePresence>

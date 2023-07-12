@@ -17,10 +17,18 @@ const CheckContainer = styled.div`
   }
 `;
 
-const Correction = ({ value, name, ...rest }) => {
+const RejectYn = ({ value, name, ...rest }) => {
   return (
     <CheckContainer>
-      <input type="checkbox" defaultChecked={value} id={name} {...rest} />
+      <input
+        type="checkbox"
+        defaultChecked={value === "YES" ? true : false}
+        onChange={(event) => {
+          const { checked } = event.currentTarget;
+          rest.onChange(checked ? "YES" : "NO");
+        }}
+        id={name}
+      />
       <CheckLabel htmlFor={name}>
         <AiOutlineCheckCircle size={20} />
       </CheckLabel>
@@ -28,4 +36,4 @@ const Correction = ({ value, name, ...rest }) => {
   );
 };
 
-export default Correction;
+export default RejectYn;
