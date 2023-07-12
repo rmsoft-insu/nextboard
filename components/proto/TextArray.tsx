@@ -92,11 +92,7 @@ const List = () => {
   const [list, setList] = useState(dummy);
   const [clickedId, setClickedId] = useState(null);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       regionList: list,
     },

@@ -153,6 +153,7 @@ const SelectSpeaker = ({ name, value, ...rest }) => {
 };
 
 const SelectAge = ({ name, value, ...rest }) => {
+  console.log(value);
   return (
     <Select
       onChange={(e) => rest.onChange(e.value)}
@@ -238,12 +239,12 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
           />
           <Controller
             control={control}
-            name={`regionList.${index}.metaspeaker`}
+            name={`regionList.${index}.meta.speaker`}
             render={({ field }) => <SelectSpeaker {...field} />}
           />
           <Controller
             control={control}
-            name={`regionList.${index}.meta.geGroup`}
+            name={`regionList.${index}.meta.ageGroup`}
             render={({ field }) => <SelectAge {...field} />}
           />
           <Controller
