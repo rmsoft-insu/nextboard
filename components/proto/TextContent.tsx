@@ -31,11 +31,15 @@ const DeleteButton = styled.div`
 `;
 
 const InputText = ({ value, name, isOpen, handleClick, ...rest }) => {
-  console.log(rest);
   return (
     <>
       {isOpen ? (
-        <textarea defaultValue={value} onClick={(e) => e.stopPropagation()} />
+        <input
+          defaultValue={value}
+          id={name}
+          {...rest}
+          onClick={(e) => e.stopPropagation()}
+        />
       ) : (
         <div onClick={handleClick}>{value}</div>
       )}
@@ -94,17 +98,37 @@ const TextContent = ({ index, control, remove, clickedId, setClickedId }) => {
 
       <AnimatePresence>
         <motion.div
-          exit="collapsed"
           initial={false}
           animate={isOpen ? "open" : "closed"}
+          exit="collapsed"
           variants={variants}
           style={{ width: "100%", backgroundColor: "skyblue" }}
         >
-          <div>abc</div>
-          <div>abc</div>
-          <div>abc</div>
-          <div>abc</div>
-          <div>abc</div>
+          <Controller
+            control={control}
+            name={`regionList.${index}.gender`}
+            render={({ field }) => <div>{field.value}</div>}
+          />
+          <Controller
+            control={control}
+            name={`regionList.${index}.timeSlot`}
+            render={({ field }) => <div>{field.value}</div>}
+          />
+          <Controller
+            control={control}
+            name={`regionList.${index}.location`}
+            render={({ field }) => <div>{field.value}</div>}
+          />
+          <Controller
+            control={control}
+            name={`regionList.${index}.speaker`}
+            render={({ field }) => <div>{field.value}</div>}
+          />
+          <Controller
+            control={control}
+            name={`regionList.${index}.ageGroup`}
+            render={({ field }) => <div>{field.value}</div>}
+          />
         </motion.div>
       </AnimatePresence>
     </div>
