@@ -89,11 +89,10 @@ const RefineVideo = () => {
     waveRef.current.load(URL);
     waveRef.current.on("ready", () => {
       dummy.forEach((region) => {
-        const { start, end, color } = region;
+        const { start, end } = region;
         waveRef.current.addRegion({
           start,
           end,
-          color,
         });
       });
 
@@ -108,12 +107,19 @@ const RefineVideo = () => {
     return regions.map((el, index) => ({
       start: el.start,
       end: el.end,
-      color: el.color,
       id: el.id,
-      title: el.element.title,
-      contents: dummy?.[index]?.contents ?? "",
-      speaker: dummy?.[index]?.contents ?? "",
-      gender: dummy?.[index]?.gender ?? "",
+      rejectYn: dummy?.[index]?.rejectYn ?? "",
+      timeline: el.element.title,
+      seek: dummy?.[index]?.seek ?? null,
+      meta: {
+        speakerIdx: dummy?.[index]?.meta?.speakerIdx ?? null,
+        speaker: dummy?.[index]?.meta?.speaker ?? "",
+        place: dummy?.[index]?.meta?.place ?? "",
+        gender: dummy?.[index]?.meta?.gender ?? "",
+        day: dummy?.[index]?.meta?.day ?? "",
+        ageGroup: dummy?.[index]?.meta?.ageGroup ?? "",
+        wordTags: dummy?.[index]?.meta?.wordTags ?? [],
+      },
     }));
   }, [regions]);
 
@@ -162,32 +168,7 @@ const RefineVideo = () => {
         style={{ visibility: `${loading ? "visible" : "hidden"}` }}
       />
       <button onClick={onPlayPause}>Play/Pause</button>
-      <button onClick={handleSubmit((data) => console.log(data))}>제출</button>
-      {list.map((region) => (
-        <div key={region.id}>
-          <span
-            onClick={() => onPlayRegion(region.id)}
-            style={{ backgroundColor: `${region.id}` }}
-          >
-            {region.title}
-          </span>
-          {region.contents}
-
-          <input
-            type="text"
-            defaultValue={region.contents}
-            {...register(`${region.id}_contents`)}
-          />
-
-          <input
-            type="text"
-            defaultValue={region.gender}
-            {...register(`${region.id})_gender`)}
-          />
-
-          <span onClick={() => onDeleteRegion(region.id)}>X</span>
-        </div>
-      ))}
+      <button onClick={() => console.log(list)}>제출</button>
     </div>
   );
 };
@@ -198,92 +179,130 @@ const dummy = [
   {
     start: 9.699275616042241,
     end: 22.147185069357135,
-    id: "wavesurfer_di7rv2l4il",
-    color: "rgba(167, 169, 242, 0.3)",
-    contents: "안녕하세요 1",
-    speaker: "",
-    location: "",
-    gender: "",
-    ageGroup: "",
-    timeslot: "",
-    correction: false,
+    seek: 0,
+    id: "",
+    text: "안녕하세요 1",
+    rejectYn: "NO",
+    timeline: "",
+    meta: {
+      speakerIdx: 1,
+      gender: "MALE",
+      day: "MORNING",
+      place: "OUTDOOR",
+      speaker: "speaker1",
+      ageGroup: "PRE_TEENS",
+      wordTags: [
+        { type: "NEOLOGISM", word: "Hi", languageType: "KOREAN" },
+        { type: "ABBERVIATION", word: "Hello", languageType: "KOREAN" },
+      ],
+    },
   },
   {
     start: 174.2611886209896,
     end: 199.3080051441226,
-    id: "wavesurfer_vokpnt1rk3g",
-    color: "rgba(255, 227, 135, 0.3)",
-    contents: "안녕하세요 2",
-    speaker: "",
-    location: "",
-    gender: "",
-    ageGroup: "",
-    timeslot: "",
-    correction: false,
+    id: "",
+    seek: 0,
+    text: "안녕하세요 2",
+    rejectYn: "YES",
+    timeline: "",
+    meta: {
+      speakerIdx: 2,
+      gender: "FEMALE",
+      day: "MORNING",
+      place: "INDOOR",
+      speaker: "speaker2",
+      ageGroup: "TEENAGER_TO_THIRTIES",
+      wordTags: [],
+    },
   },
   {
     start: 248.1295708675843,
     end: 266.2272706308062,
-    id: "wavesurfer_ismkrr2pkg8",
-    color: "rgba(117, 234, 203, 0.3)",
-    contents: "안녕하세요 3",
-    speaker: "",
-    location: "",
-    gender: "MALE",
-    ageGroup: "",
-    timeslot: "",
-    correction: false,
+    id: "",
+    seek: 0,
+    text: "안녕하세요 3",
+    rejectYn: "NO",
+    timeline: "",
+    meta: {
+      speakerIdx: 3,
+      gender: "MALE",
+      day: "MORNING",
+      place: "INDOOR",
+      speaker: "speaker3",
+      ageGroup: "THIRTIES_TO_FIFITES",
+      wordTags: [],
+    },
   },
   {
     start: 274.4595494947695,
     end: 297.3566392504479,
-    id: "wavesurfer_2608ldto03",
-    color: "rgba(178, 255, 195, 0.3)",
-    contents: "안녕하세요 4",
-    speaker: "",
-    location: "",
-    gender: "FEMALE",
-    ageGroup: "",
-    timeslot: "",
-    correction: false,
+    id: "",
+    seek: 0,
+    text: "안녕하세요 4",
+    rejectYn: "NO",
+    timeline: "",
+    meta: {
+      speakerIdx: 4,
+      gender: "FEMALE",
+      day: "MORNING",
+      place: "OUTDOOR",
+      speaker: "speaker4",
+      ageGroup: "SIXTIES_AND_ABOVE",
+      wordTags: [],
+    },
   },
   {
     start: 332.63550487869435,
     end: 353.33287422116354,
-    id: "wavesurfer_1ue0q58o7i",
-    color: "rgba(252, 250, 159, 0.3)",
-    contents: "안녕하세요 5",
-    speaker: "",
-    location: "",
-    gender: "",
-    ageGroup: "",
-    timeslot: "",
-    correction: false,
+    id: "",
+    seek: 0,
+    text: "안녕하세요 5",
+    rejectYn: "NO",
+    timeline: "",
+    meta: {
+      speakerIdx: 5,
+      gender: "MALE",
+      day: "AFTERNOON",
+      place: "INDOOR",
+      speaker: "speaker5",
+      ageGroup: "TEENAGER_TO_THIRTIES",
+      wordTags: [],
+    },
   },
   {
     start: 400.32690123063463,
     end: 426.82353348065567,
-    id: "wavesurfer_5ae54u3ve5",
-    color: "rgba(167, 255, 140, 0.3)",
-    contents: "안녕하세요 6",
-    speaker: "",
-    location: "",
-    gender: "",
-    ageGroup: "",
-    timeslot: "",
-    correction: false,
+    id: "",
+    text: "안녕하세요 6",
+    seek: 0,
+    rejectYn: "YES",
+    timeline: "",
+    meta: {
+      speakerIdx: 6,
+      gender: "FEMALE",
+      day: "MORNING",
+      place: "INDOOR",
+      speaker: "",
+      ageGroup: "THIRTIES_TO_FIFITES",
+      wordTags: [],
+    },
   },
   {
     start: 428.8288205987298,
     end: 447.276475882235,
-    id: "wavesurfer_9h1njj78jho",
-    color: "rgba(167, 255, 140, 0.3)",
-    contents: "안녕하세요 7",
-    speaker: "",
-    location: "",
-    gender: "",
-    ageGroup: "",
-    timeslot: "",
-    correction: false,
+    id: "",
+    text: "안녕하세요 7",
+    seek: 0,
+    rejectYn: "YES",
+    timeline: "",
+    meta: {
+      speakerIdx: 7,
+      gender: "FEMALE",
+      day: "MORNING",
+      place: "INDOOR",
+      speaker: "",
+      ageGroup: "THIRTIES_TO_FIFITES",
+      wordTags: [],
+    },
   },
 ];
