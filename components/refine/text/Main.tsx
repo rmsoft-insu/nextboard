@@ -5,7 +5,12 @@ import RefineText from "./RefineText";
 const RefineMain = ({ list, onDeleteRegion }) => {
   const [clickedId, setClickedId] = useState(null);
 
-  const { control, handleSubmit, watch } = useForm({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       regionList: [...list],
     },

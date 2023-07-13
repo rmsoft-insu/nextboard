@@ -55,11 +55,13 @@ const InputText = ({ value, name, isOpen, handleClick, ...rest }) => {
         <input
           defaultValue={value}
           id={name}
-          {...rest}
+          onChange={(e) => rest.onChange(e.currentTarget.value.trim())}
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <div onClick={handleClick}>{value ? value : "문장을 입력하세요"}</div>
+        <div onClick={handleClick}>
+          {value.trim() ? value : "문장을 입력하세요"}
+        </div>
       )}
     </>
   );
@@ -218,6 +220,7 @@ const RefineText = ({
           )}
           name={`regionList.${index}.text`}
           control={control}
+          rules={{ required: { value: true, message: "문장을 입력하세요" } }}
         />
 
         <DeleteButton
