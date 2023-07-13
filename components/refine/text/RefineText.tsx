@@ -59,7 +59,7 @@ const InputText = ({ value, name, isOpen, handleClick, ...rest }) => {
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <div onClick={handleClick}>{value}</div>
+        <div onClick={handleClick}>{value ? value : "문장을 입력하세요"}</div>
       )}
     </>
   );

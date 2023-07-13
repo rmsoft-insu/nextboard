@@ -134,6 +134,7 @@ const RefineVideo = () => {
     sortedList.length !== 0 && setList(() => sortedList);
   }, [formatList]);
 
+  console.log("list", list);
   return (
     <Container>
       <div>
