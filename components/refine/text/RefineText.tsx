@@ -164,7 +164,15 @@ const SelectAge = ({ name, value, ...rest }) => {
   );
 };
 
-const RefineText = ({ index, control, remove, clickedId, setClickedId }) => {
+const RefineText = ({
+  index,
+  control,
+  remove,
+  clickedId,
+  setClickedId,
+  watch,
+  onDeleteRegion,
+}) => {
   const [open, setOpen] = useState(false);
   const isOpen = clickedId === index;
 
@@ -212,7 +220,13 @@ const RefineText = ({ index, control, remove, clickedId, setClickedId }) => {
           control={control}
         />
 
-        <DeleteButton onClick={() => remove(index)}>
+        <DeleteButton
+          onClick={() => {
+            const id = watch(`regionList.${index}.id`);
+            onDeleteRegion(id);
+            //remove(index);
+          }}
+        >
           <BsXCircle size={20} />
         </DeleteButton>
       </motion.div>

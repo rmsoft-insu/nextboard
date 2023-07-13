@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import RefineMain from "../text/Main";
 
-const URL = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/contents/%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8/000000_%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8.mp4`;
+const URL = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/contents/front_test/000000_m2.mp4`;
 const SUB = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/contents/%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8/000000_%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8.vtt`;
 
 `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/video/m2.mp4`;
@@ -134,7 +134,6 @@ const RefineVideo = () => {
     sortedList.length !== 0 && setList(() => sortedList);
   }, [formatList]);
 
-  console.log("list", list);
   return (
     <Container>
       <div>
@@ -175,7 +174,11 @@ const RefineVideo = () => {
         />
         <button onClick={onPlayPause}>Play/Pause</button>
       </div>
-      <div>{list.length !== 0 && <RefineMain list={list} />}</div>
+      <div>
+        {list.length !== 0 && (
+          <RefineMain list={list} onDeleteRegion={onDeleteRegion} />
+        )}
+      </div>
     </Container>
   );
 };

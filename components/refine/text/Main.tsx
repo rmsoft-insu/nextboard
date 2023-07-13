@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import RefineText from "./RefineText";
 
-const RefineMain = ({ list }) => {
+const RefineMain = ({ list, onDeleteRegion }) => {
   const [clickedId, setClickedId] = useState(null);
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, watch } = useForm({
     defaultValues: {
       regionList: [...list],
     },
@@ -22,7 +22,6 @@ const RefineMain = ({ list }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
 
-  console.log(fields);
   return (
     <div>
       {fields.map((item, index) => (
@@ -33,6 +32,8 @@ const RefineMain = ({ list }) => {
             control={control}
             setClickedId={setClickedId}
             clickedId={clickedId}
+            onDeleteRegion={onDeleteRegion}
+            watch={watch}
           />
         </div>
       ))}
