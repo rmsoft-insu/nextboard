@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 
@@ -88,8 +88,7 @@ const dummy = [
   },
 ];
 
-const RefineMain = () => {
-  const [list, setList] = useState(dummy);
+const RefineMain = ({ list }) => {
   const [clickedId, setClickedId] = useState(null);
 
   const { control, handleSubmit } = useForm({
@@ -100,7 +99,7 @@ const RefineMain = () => {
   });
 
   const { fields, remove } = useFieldArray({ control, name: "regionList" });
-
+  console.log(fields);
   return (
     <div>
       {fields.map((item, index) => (

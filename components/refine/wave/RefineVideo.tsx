@@ -6,6 +6,7 @@ import randomColor from "randomcolor";
 import ReactPlayer from "react-player";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import RefineMain from "../text/Main";
 
 const URL = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/contents/%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8/000000_%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8.mp4`;
 const SUB = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/contents/%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8/000000_%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8.vtt`;
@@ -112,6 +113,7 @@ const RefineVideo = () => {
       rejectYn: dummy?.[index]?.rejectYn ?? "",
       timeline: el.element.title,
       seek: dummy?.[index]?.seek ?? null,
+      text: dummy?.[index]?.text ?? "",
       meta: {
         speakerIdx: dummy?.[index]?.meta?.speakerIdx ?? null,
         speaker: dummy?.[index]?.meta?.speaker ?? "",
@@ -172,7 +174,7 @@ const RefineVideo = () => {
         />
         <button onClick={onPlayPause}>Play/Pause</button>
       </div>
-      <div>오른쪽</div>
+      <div>{list.length !== 0 && <RefineMain list={list} />}</div>
     </Container>
   );
 };

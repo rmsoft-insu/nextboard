@@ -198,7 +198,11 @@ const RefineText = ({ index, control, remove, clickedId, setClickedId }) => {
           control={control}
         />
 
-        <div>00:00 ~ 00:00</div>
+        <Controller
+          render={({ field }) => <div>{field.value}</div>}
+          name={`regionList.${index}.timeline`}
+          control={control}
+        />
 
         <Controller
           render={({ field }) => (
