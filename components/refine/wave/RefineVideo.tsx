@@ -5,6 +5,7 @@ import * as WaveSurferRegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.r
 import randomColor from "randomcolor";
 import ReactPlayer from "react-player";
 import { useForm } from "react-hook-form";
+import styled from "styled-components";
 
 const URL = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/contents/%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8/000000_%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8.mp4`;
 const SUB = `https://clive-staging-resource.s3.ap-northeast-2.amazonaws.com/contents/%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8/000000_%ED%95%9C%EA%B8%80+%EA%B3%B5%EB%B0%B1+%ED%85%8C%EC%8A%A4%ED%8A%B8.vtt`;
@@ -132,48 +133,56 @@ const RefineVideo = () => {
   }, [formatList]);
 
   return (
-    <div>
-      <ReactPlayer
-        width={"100%"}
-        url={URL}
-        ref={videoRef}
-        muted={true}
-        progressInterval={300}
-        id={"videoplayer"}
-        controls={true}
-        config={{
-          file: {
-            attributes: {
-              crossOrigin: "true",
-            },
-            tracks: [
-              {
-                kind: "subtitles",
-                src: SUB,
-                srcLang: "ko",
-                default: true,
-                label: "eng",
+    <Container>
+      <div>
+        <button onClick={() => console.log(list)}>제출</button>
+        <ReactPlayer
+          width={"100%"}
+          url={URL}
+          ref={videoRef}
+          muted={true}
+          progressInterval={300}
+          id={"videoplayer"}
+          controls={true}
+          config={{
+            file: {
+              attributes: {
+                crossOrigin: "true",
               },
-            ],
-          },
-        }}
-      />
+              tracks: [
+                {
+                  kind: "subtitles",
+                  src: SUB,
+                  srcLang: "ko",
+                  default: true,
+                  label: "eng",
+                },
+              ],
+            },
+          }}
+        />
 
-      <div
-        id="waveform"
-        style={{ visibility: `${loading ? "visible" : "hidden"}` }}
-      />
-      <div
-        id="waveform-timeline"
-        style={{ visibility: `${loading ? "visible" : "hidden"}` }}
-      />
-      <button onClick={onPlayPause}>Play/Pause</button>
-      <button onClick={() => console.log(list)}>제출</button>
-    </div>
+        <div
+          id="waveform"
+          style={{ visibility: `${loading ? "visible" : "hidden"}` }}
+        />
+        <div
+          id="waveform-timeline"
+          style={{ visibility: `${loading ? "visible" : "hidden"}` }}
+        />
+        <button onClick={onPlayPause}>Play/Pause</button>
+      </div>
+      <div>오른쪽</div>
+    </Container>
   );
 };
 
 export default RefineVideo;
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+`;
 
 const dummy = [
   {
