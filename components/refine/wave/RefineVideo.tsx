@@ -144,7 +144,7 @@ const RefineVideo = () => {
         config={{
           file: {
             attributes: {
-              crossOrgin: true,
+              crossOrigin: "true",
             },
             tracks: [
               {
