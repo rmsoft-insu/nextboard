@@ -8,7 +8,6 @@ const RefineVideo = dynamic(
 const RefinePage = () => {
   return (
     <div>
-      <div>Refine</div>
       <RefineVideo />
     </div>
   );
