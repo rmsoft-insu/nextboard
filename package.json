@@ -41,6 +41,7 @@
     "react-player": "^2.12.0",
     "react-quill": "^2.0.0",
     "react-select": "^5.7.3",
+    "react-tooltip": "^5.18.1",
     "react-window": "^1.8.9",
     "recoil": "^0.7.7",
     "styled-components": "^5.3.9",
