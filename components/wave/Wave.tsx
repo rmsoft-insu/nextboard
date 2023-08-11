@@ -13,6 +13,8 @@ const Wave = () => {
   const audioData = useRef(null);
   const { register, handleSubmit } = useForm();
 
+  const [regionId, setRegionId] = useState("");
+
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
       container: "#waveform",
@@ -38,8 +40,11 @@ const Wave = () => {
         format: "rgba",
       })}`;
       event.maxLength = 60;
-      event.minLength = 5;
+      //event.minLength = 5;
       setRegions((oldResions) => [...oldResions, event]);
+    });
+    wavesurfer.current.on("region-click", (event) => {
+      setRegionId(event.id);
     });
 
     wavesurfer.current.enableDragSelection({});
@@ -94,6 +99,39 @@ const Wave = () => {
     setRegions(updatedRegions);
   };
 
+  const handleStart = () => {
+    console.log(regionId);
+    console.log(wavesurfer.current.Region);
+    console.log(wavesurfer.current.regions.list);
+    console.log("list", wavesurfer.current.regions.list.regionId);
+    console.log(wavesurfer.current.regions.list[`${regionId}`]);
+    //console.log(wavesurfer.current.Region({ id: regionId }));
+  };
+
+  const addStart = () => {
+    const { start, end } = wavesurfer.current.regions.list[`${regionId}`];
+    console.log("start, end", start, end);
+    wavesurfer.current.regions.list[`${regionId}`].update({
+      start: start + 2,
+      end: end,
+    });
+  };
+
+  const addEnd = () => {
+    const region = wavesurfer.current.regions.list[`${regionId}`];
+    const { start, end } = region;
+    region.update({
+      start: start,
+      end: end + 2,
+    });
+  };
+
+  const clearRegions = () => {
+    wavesurfer.current.regions.wavesurfer.clearRegions();
+    setRegions([]);
+    //wavesurfer.current.regions.clearRegions();
+  };
+
   useEffect(() => {
     console.log(regions);
   }, [regions]);
@@ -126,6 +164,10 @@ const Wave = () => {
       >
         Upload Audio
       </button>
+      <button onClick={handleStart}>mmm</button>
+      <button onClick={addStart}>add</button>
+      <button onClick={addEnd}>end</button>
+      <button onClick={clearRegions}>clear</button>
       {regions.map((region, index) => (
         <div key={region.id}>
           <span
