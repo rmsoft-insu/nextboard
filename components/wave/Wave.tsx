@@ -16,39 +16,41 @@ const Wave = () => {
   const [regionId, setRegionId] = useState("");
 
   useEffect(() => {
-    wavesurfer.current = WaveSurfer.create({
-      container: "#waveform",
-      waveColor: "#D9DCFF",
-      progressColor: "#4353FF",
-      barWidth: 3,
-      barRadius: 3,
-      cursorWidth: 1,
-      height: 200,
-      barGap: 3,
-      plugins: [
-        WaveSurferRegionsPlugin.create({ maxLength: 60 }),
-        WaveSurferTimelinePlugin.create({ container: "#waveform-timeline" }),
-      ],
-    });
-    wavesurfer.current.on("ready", () => {
-      setWaveFormLoaded(true);
-    });
-    wavesurfer.current.on("region-created", (event) => {
-      event.color = `${randomColor({
-        luminosity: "light",
-        alpha: 0.3,
-        format: "rgba",
-      })}`;
-      event.maxLength = 60;
-      //event.minLength = 5;
-      setRegions((oldResions) => [...oldResions, event]);
-    });
-    wavesurfer.current.on("region-click", (event) => {
-      setRegionId(event.id);
-    });
+    if (wavesurfer.current === null) {
+      wavesurfer.current = WaveSurfer.create({
+        container: "#waveform",
+        waveColor: "#D9DCFF",
+        progressColor: "#4353FF",
+        barWidth: 3,
+        barRadius: 3,
+        cursorWidth: 1,
+        height: 200,
+        barGap: 3,
+        plugins: [
+          WaveSurferRegionsPlugin.create({ maxLength: 60 }),
+          WaveSurferTimelinePlugin.create({ container: "#waveform-timeline" }),
+        ],
+      });
+      wavesurfer.current.on("ready", () => {
+        setWaveFormLoaded(true);
+      });
+      wavesurfer.current.on("region-created", (event) => {
+        event.color = `${randomColor({
+          luminosity: "light",
+          alpha: 0.3,
+          format: "rgba",
+        })}`;
+        //event.maxLength = 60;
+        //event.minLength = 5;
+        setRegions((oldResions) => [...oldResions, event]);
+      });
+      wavesurfer.current.on("region-click", (event) => {
+        setRegionId(event.id);
+      });
 
-    wavesurfer.current.enableDragSelection({});
-  }, []);
+      wavesurfer.current.enableDragSelection({});
+    }
+  }, [regions]);
 
   const createWaveform = (event) => {
     if (regions.length > 0) {
@@ -132,7 +134,48 @@ const Wave = () => {
     //wavesurfer.current.regions.clearRegions();
   };
 
+  const handleMerge = () => {
+    console.log("id", regionId);
+    console.log("region", wavesurfer.current.regions.list[`${regionId}`]);
+    if (regionId !== "") {
+      const currentIndex = regions.findIndex((el) => el.id === regionId);
+      const nextRegionId = regions?.[currentIndex + 1]?.id;
+      const nextRegion = wavesurfer.current.regions.list[`${nextRegionId}`];
+      console.log("next-region-id", regions?.[currentIndex + 1]?.id);
+      console.log(
+        "next-region",
+        wavesurfer.current.regions.list[`${nextRegionId}`]
+      );
+
+      let { start, end } = wavesurfer.current.regions.list[`${regionId}`];
+
+      if (start > nextRegion.start) {
+        start = nextRegion.start;
+      }
+      if (end < nextRegion.end) {
+        end = nextRegion.end;
+      }
+
+      wavesurfer.current.regions.list[`${nextRegionId}`].remove();
+      wavesurfer.current.regions.list[`${regionId}`].update({
+        start: start,
+        end: end,
+      });
+    }
+
+    console.log("current region", wavesurfer.current);
+  };
+
   useEffect(() => {
+    const regionData = regions.sort((previous, current) => {
+      if (previous.start > current.start) return 1;
+      if (previous.start < current.start) return -1;
+    });
+
+    /*  const mergeList = regionData?.map((region, index) => {
+      return Object.assign({}, list[index], region);
+    }); */
+    setRegions(regionData);
     console.log(regions);
   }, [regions]);
 
@@ -168,6 +211,7 @@ const Wave = () => {
       <button onClick={addStart}>add</button>
       <button onClick={addEnd}>end</button>
       <button onClick={clearRegions}>clear</button>
+      <button onClick={handleMerge}>Merge</button>
       {regions.map((region, index) => (
         <div key={region.id}>
           <span
