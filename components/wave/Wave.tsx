@@ -11,7 +11,7 @@ const Wave = () => {
   const [regions, setRegions] = useState([]);
   const wavesurfer = useRef(null);
   const audioData = useRef(null);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
 
   const [regionId, setRegionId] = useState("");
 
@@ -46,6 +46,10 @@ const Wave = () => {
       });
       wavesurfer.current.on("region-click", (event) => {
         setRegionId(event.id);
+      });
+      wavesurfer.current.on("region-update-end", (event: any) => {
+        console.log("updated");
+        console.log(event);
       });
 
       wavesurfer.current.enableDragSelection({});
@@ -131,10 +135,17 @@ const Wave = () => {
   const clearRegions = () => {
     wavesurfer.current.regions.wavesurfer.clearRegions();
     setRegions([]);
+
     //wavesurfer.current.regions.clearRegions();
   };
 
   const handleMerge = () => {
+    console.log(
+      Object.entries(wavesurfer.current.regions.list).map(
+        ([key, value]) => value
+      )
+    );
+
     console.log("id", regionId);
     console.log("region", wavesurfer.current.regions.list[`${regionId}`]);
     if (regionId !== "") {
@@ -149,14 +160,14 @@ const Wave = () => {
 
       let { start, end } = wavesurfer.current.regions.list[`${regionId}`];
 
-      if (start > nextRegion.start) {
+      if (start > nextRegion?.start) {
         start = nextRegion.start;
       }
-      if (end < nextRegion.end) {
+      if (end < nextRegion?.end) {
         end = nextRegion.end;
       }
 
-      wavesurfer.current.regions.list[`${nextRegionId}`].remove();
+      wavesurfer.current.regions.list[`${nextRegionId}`]?.remove();
       wavesurfer.current.regions.list[`${regionId}`].update({
         start: start,
         end: end,
@@ -164,6 +175,14 @@ const Wave = () => {
     }
 
     console.log("current region", wavesurfer.current);
+    console.log("regions", wavesurfer.current.regions);
+    //setRegions()
+    setRegionId("");
+  };
+
+  const handleTextMerge = () => {
+    console.log("mergetxt", regions);
+    console.log("watch", watch());
   };
 
   useEffect(() => {
@@ -176,7 +195,7 @@ const Wave = () => {
       return Object.assign({}, list[index], region);
     }); */
     setRegions(regionData);
-    console.log(regions);
+    //console.log(regions);
   }, [regions]);
 
   return (
@@ -211,14 +230,15 @@ const Wave = () => {
       <button onClick={addStart}>add</button>
       <button onClick={addEnd}>end</button>
       <button onClick={clearRegions}>clear</button>
-      <button onClick={handleMerge}>Merge</button>
+      <button onClick={handleMerge}>waveMerge</button>
+      <button onClick={handleTextMerge}>TextMerge</button>
       {regions.map((region, index) => (
         <div key={region.id}>
           <span
             onClick={() => playRegion(region.id)}
             style={{ backgroundColor: `${region.id}` }}
           >
-            {region.element.title}
+            {region?.element?.title}
           </span>
           <input type="text" {...register(`audio_${index}`)} />
           <span onClick={() => deleteSegmanet(region.id)}>X</span>
